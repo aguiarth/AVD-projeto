@@ -1,0 +1,22 @@
+services:
+  jupyterlab:
+    image: jupyter/datascience-notebook
+    container_name: jupyter-uva
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    command: start-notebook.sh --NotebookApp.token=''
+
+  thingsboard:
+    image: thingsboard/tb-postgres
+    container_name: thingsboard
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      TB_QUEUE_TYPE: in-memory
+    volumes:
+      - ./thingsboard/data:/data
+      - ./thingsboard/logs:/var/log/thingsboard

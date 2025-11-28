@@ -1,0 +1,151 @@
+2025-11-28 13:05:39,253 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-11-28 13:05:45,869 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:05:45,871 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:05:46,291 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 361 ms. Found 7 JPA repository interfaces.
+2025-11-28 13:05:46,298 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:05:46,301 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:05:46,933 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 630 ms. Found 57 JPA repository interfaces.
+2025-11-28 13:05:46,940 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:05:46,941 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:05:46,963 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 1 JPA repository interface.
+2025-11-28 13:05:46,972 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:05:46,973 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:05:46,991 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interface.
+2025-11-28 13:05:49,592 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2025-11-28 13:05:49,654 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2025-11-28 13:05:52,867 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+2025-11-28 13:05:52,966 [main] INFO  o.a.coyote.http11.Http11NioProtocol - The ["http-nio-0.0.0.0-9090"] connector has been configured to support HTTP upgrade to [h2c]
+2025-11-28 13:05:52,969 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:05:52,983 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 13:05:52,985 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-11-28 13:05:53,144 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-28 13:05:53,146 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 13283 ms
+2025-11-28 13:05:54,531 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 13:05:55,152 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-11-28 13:05:55,450 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 13:05:55,959 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 13:05:56,789 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5911dd25
+2025-11-28 13:05:56,799 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 13:05:57,094 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 13:05:58,585 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 13:06:07,558 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 13:06:07,621 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 13:06:11,561 [main] INFO  o.t.s.d.a.CachedAttributesService - Going to use directExecutor for the local cache type caffeine
+2025-11-28 13:06:13,077 [main] INFO  o.t.s.d.s.NamedParameterJdbcTemplateConfiguration - Set jdbcTemplate query timeout [30] second(s)
+2025-11-28 13:06:14,234 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+2025-11-28 13:06:17,793 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'relations' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,821 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'deviceCredentials' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,825 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'devices' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,827 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'sessions' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,829 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'assets' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,831 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'customers' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,833 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'users' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,835 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'entityViews' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,836 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'claimDevices' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,838 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'securitySettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,840 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenantProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,842 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenants' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,844 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenantsExist' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,846 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'deviceProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,848 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'assetProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,850 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'notificationSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,851 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'sentNotifications' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,853 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'attributes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,854 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tsLatest' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,856 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'userSessionsInvalidation' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,858 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'otaPackages' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,859 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'otaPackagesData' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,861 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'edges' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,862 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'edgeSessions' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,864 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'relatedEdges' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,865 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'repositorySettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,866 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'autoCommitSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,868 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'twoFaVerificationCodes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,870 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'versionControlTask' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,872 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'userSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,874 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'dashboardTitles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,875 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'entityCount' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,876 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'resourceInfo' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,878 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'alarmTypes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,880 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'qrCodeSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,882 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'mobileSecretKey' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,883 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'trendzSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:17,884 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'aiModel' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:06:19,564 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-28 13:06:20,300 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-11-28 13:06:20,302 [main] INFO  o.s.i.c.PublishSubscribeChannel - Channel 'application.errorChannel' has 1 subscriber(s).
+2025-11-28 13:06:20,305 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - started bean '_org.springframework.integration.errorLogger'
+2025-11-28 13:06:20,434 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:06:20,491 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+2025-11-28 13:06:20,666 [main] INFO  o.t.s.i.ThingsboardInstallService - Starting ThingsBoard Installation...
+2025-11-28 13:06:20,668 [main] INFO  o.t.s.i.ThingsboardInstallService - Installing DataBase schema for entities...
+2025-11-28 13:06:20,669 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Installing SQL DataBase schema part: schema-entities.sql
+2025-11-28 13:06:25,152 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Installing SQL DataBase schema indexes part: schema-entities-idx.sql
+2025-11-28 13:06:27,381 [main] INFO  o.t.s.s.i.SqlEntityDatabaseSchemaService - Installing SQL DataBase schema PostgreSQL specific indexes part: schema-entities-idx-psql-addon.sql
+2025-11-28 13:06:28,000 [main] INFO  o.t.s.s.i.SqlEntityDatabaseSchemaService - Installing SQL DataBase schema views and functions: schema-views-and-functions.sql
+2025-11-28 13:06:28,765 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Successfully executed query: DROP VIEW IF EXISTS device_info_view CASCADE;
+2025-11-28 13:06:33,910 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Successfully executed query: CREATE OR REPLACE VIEW device_info_view AS SELECT * FROM device_info_active_attribute_view;
+2025-11-28 13:06:38,911 [main] INFO  o.t.s.i.ThingsboardInstallService - Installing DataBase schema for timeseries...
+2025-11-28 13:06:38,913 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Installing SQL DataBase schema part: schema-ts-psql.sql
+2025-11-28 13:06:39,346 [main] INFO  o.t.s.s.i.SqlAbstractDatabaseSchemaService - Successfully executed query: CREATE TABLE IF NOT EXISTS ts_kv_indefinite PARTITION OF ts_kv DEFAULT;
+2025-11-28 13:06:44,350 [main] INFO  o.t.s.i.ThingsboardInstallService - Loading system data...
+2025-11-28 13:06:45,620 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 13:06:50,982 [main] INFO  c.d.oss.driver.api.core.uuid.Uuids - PID obtained through native call to getpid(): 50
+2025-11-28 13:06:53,189 [main] INFO  org.owasp.validator.html.Policy - Attempting to load AntiSamy policy from an input stream.
+2025-11-28 13:06:53,547 [main] WARN  org.owasp.validator.html.Policy - The directive "noopenerAndNoreferrerAnchors" is enabled by default, but disabled in this policy. It is recommended to leave it enabled to prevent reverse tabnabbing attacks.
+2025-11-28 13:06:56,046 [main] INFO  o.t.s.s.i.DefaultSystemDataLoaderService - Creating JWT admin settings...
+2025-11-28 13:06:56,076 [main] INFO  o.t.s.s.s.a.j.s.DefaultJwtSettingsService - Saving new JWT admin settings. From this moment, the JWT parameters from YAML and ENV will be ignored
+2025-11-28 13:06:56,142 [main] INFO  o.t.s.service.install.InstallScripts - Loading system widgets
+2025-11-28 13:07:41,484 [main] INFO  o.t.s.service.install.InstallScripts - Loading system SCADA symbols
+2025-11-28 13:07:59,586 [main] INFO  o.t.s.s.i.DefaultSystemDataLoaderService - Creating default notification configs for system admin
+2025-11-28 13:07:59,942 [main] INFO  o.t.s.s.i.DefaultSystemDataLoaderService - Creating default notification configs for all tenants
+2025-11-28 13:08:08,364 [main] INFO  o.t.s.service.install.InstallScripts - Loading system images and resources...
+2025-11-28 13:08:08,459 [main] INFO  o.t.s.d.resource.BaseResourceService - Creating system resource gateway-management-extension.js
+2025-11-28 13:08:08,698 [main] INFO  o.t.s.d.resource.BaseResourceService - Creating system resource gateways_dashboard.json
+2025-11-28 13:08:08,723 [main] INFO  o.t.s.i.ThingsboardInstallService - Loading demo data...
+2025-11-28 13:08:11,594 [sql-log-1-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS] queueSize [0] totalAdded [17] totalSaved [17] totalFailed [0]
+2025-11-28 13:08:11,653 [sql-log-1-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS Latest] queueSize [0] totalAdded [17] totalSaved [17] totalFailed [0]
+2025-11-28 13:08:13,893 [main] INFO  o.t.s.i.ThingsboardInstallService - Installation finished successfully!
+2025-11-28 13:08:13,904 [main] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-11-28 13:08:13,909 [tomcat-shutdown] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:08:13,922 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-11-28 13:08:13,924 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:08:14,010 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-11-28 13:08:14,011 [main] INFO  o.s.i.c.PublishSubscribeChannel - Channel 'application.errorChannel' has 0 subscriber(s).
+2025-11-28 13:08:14,013 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - stopped bean '_org.springframework.integration.errorLogger'
+2025-11-28 13:08:14,036 [sql-queue-0-attributes-5-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-1-ts-9-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-2-ts latest-13-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-1-ts latest-12-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-0-ts latest-11-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-1-attributes-6-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-0-ts-8-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling was interrupted
+2025-11-28 13:08:14,036 [sql-queue-2-ts-10-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling was interrupted
+2025-11-28 13:08:14,037 [sql-queue-0-attributes-5-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling completed
+2025-11-28 13:08:14,038 [sql-queue-2-attributes-7-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling was interrupted
+2025-11-28 13:08:14,038 [sql-queue-1-ts-9-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling completed
+2025-11-28 13:08:14,039 [sql-queue-2-ts latest-13-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling completed
+2025-11-28 13:08:14,050 [sql-queue-2-events-4-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling was interrupted
+2025-11-28 13:08:14,040 [sql-queue-1-ts latest-12-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling completed
+2025-11-28 13:08:14,041 [sql-queue-0-ts latest-11-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS Latest] Queue polling completed
+2025-11-28 13:08:14,042 [sql-queue-1-attributes-6-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling completed
+2025-11-28 13:08:14,054 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 13:08:14,044 [sql-queue-0-ts-8-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling completed
+2025-11-28 13:08:14,045 [sql-queue-2-ts-10-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [TS] Queue polling completed
+2025-11-28 13:08:14,047 [sql-queue-2-attributes-7-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Attributes] Queue polling completed
+2025-11-28 13:08:14,048 [sql-queue-0-edge events-16-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Edge Events] Queue polling was interrupted
+2025-11-28 13:08:14,050 [sql-queue-1-events-3-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling was interrupted
+2025-11-28 13:08:14,050 [sql-queue-0-events-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling was interrupted
+2025-11-28 13:08:14,051 [sql-queue-2-events-4-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling completed
+2025-11-28 13:08:14,060 [sql-queue-0-edge events-16-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Edge Events] Queue polling completed
+2025-11-28 13:08:14,060 [sql-queue-1-events-3-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling completed
+2025-11-28 13:08:14,061 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-11-28 13:08:14,061 [sql-queue-0-events-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - [Events] Queue polling completed
+2025-11-28 13:08:14,075 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
