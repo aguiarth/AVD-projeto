@@ -1,0 +1,385 @@
+2025-11-28 13:08:21,434 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.3.Final
+2025-11-28 13:08:22,334 [main] INFO  o.t.s.ThingsboardServerApplication - Starting ThingsboardServerApplication v4.2.1 using Java 17.0.16 with PID 178 (/usr/share/thingsboard/bin/thingsboard.jar started by thingsboard in /)
+2025-11-28 13:08:22,347 [main] INFO  o.t.s.ThingsboardServerApplication - No active profile set, falling back to 1 default profile: "default"
+2025-11-28 13:08:25,212 [main] WARN  o.s.c.a.AnnotationTypeMapping - Support for convention-based annotation attribute overrides is deprecated and will be removed in Spring Framework 7.0. Please annotate the following attributes in @org.thingsboard.server.config.annotations.ApiOperation with appropriate @AliasFor declarations: [hidden, requestBody, responses]
+2025-11-28 13:08:38,496 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:08:38,498 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:08:39,018 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 480 ms. Found 7 JPA repository interfaces.
+2025-11-28 13:08:39,026 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:08:39,027 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:08:39,838 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 806 ms. Found 57 JPA repository interfaces.
+2025-11-28 13:08:39,846 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:08:39,848 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:08:39,884 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 28 ms. Found 1 JPA repository interface.
+2025-11-28 13:08:39,886 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-11-28 13:08:39,887 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in LAZY mode.
+2025-11-28 13:08:39,906 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 15 ms. Found 1 JPA repository interface.
+2025-11-28 13:08:42,158 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2025-11-28 13:08:42,208 [main] INFO  o.s.i.c.DefaultConfiguringBeanFactoryPostProcessor - No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2025-11-28 13:08:45,729 [main] INFO  o.t.s.q.d.DefaultTbServiceInfoProvider - Current Service ID: 99c8d442646e
+2025-11-28 13:08:48,444 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-28 13:08:48,774 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-11-28 13:08:48,914 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-11-28 13:08:49,293 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-11-28 13:08:49,931 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@726e3907
+2025-11-28 13:08:49,937 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-11-28 13:08:50,055 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 12.0
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-11-28 13:08:50,935 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-28 13:08:59,699 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-28 13:08:59,736 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-28 13:09:01,679 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-28 13:09:11,715 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+2025-11-28 13:09:11,767 [main] INFO  o.a.coyote.http11.Http11NioProtocol - The ["http-nio-0.0.0.0-9090"] connector has been configured to support HTTP upgrade to [h2c]
+2025-11-28 13:09:11,769 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:09:11,776 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-11-28 13:09:11,778 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-11-28 13:09:11,923 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-11-28 13:09:11,925 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 49251 ms
+2025-11-28 13:09:12,578 [main] INFO  o.t.s.d.a.CachedAttributesService - Going to use directExecutor for the local cache type caffeine
+2025-11-28 13:09:15,401 [main] INFO  o.t.s.s.a.DefaultTbApiUsageStateService - Starting api usage service.
+2025-11-28 13:09:15,446 [main] INFO  o.t.s.s.a.DefaultTbApiUsageStateService - Started api usage service.
+2025-11-28 13:09:21,340 [main] INFO  o.t.s.t.h.config.PayloadSizeFilter - Initialized payload size filter with configuration: /api/image*/**=52428800;/api/resource/**=52428800;/api/**=16777216
+2025-11-28 13:09:21,514 [main] INFO  o.t.s.t.h.config.PayloadSizeFilter - Initialized payload size filter with configuration: /api/v1/*/rpc/**=65536;/api/v1/**=52428800
+2025-11-28 13:09:21,788 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: zookeeper.version=3.9.3-c26634f34490bb0ea7a09cc51e05ede3b4e320ee, built on 2024-10-17 23:21 UTC
+2025-11-28 13:09:21,790 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: host.name=99c8d442646e
+2025-11-28 13:09:21,791 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.version=17.0.16
+2025-11-28 13:09:21,793 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.vendor=Debian
+2025-11-28 13:09:21,794 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.home=/usr/lib/jvm/java-17-openjdk-amd64
+2025-11-28 13:09:21,795 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.class.path=/usr/share/thingsboard/bin/thingsboard.jar
+2025-11-28 13:09:21,796 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.library.path=/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib
+2025-11-28 13:09:21,797 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.io.tmpdir=/tmp
+2025-11-28 13:09:21,798 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: java.compiler=<NA>
+2025-11-28 13:09:21,799 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.name=Linux
+2025-11-28 13:09:21,801 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.arch=amd64
+2025-11-28 13:09:21,802 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.version=6.6.87.2-microsoft-standard-WSL2
+2025-11-28 13:09:21,803 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: user.name=thingsboard
+2025-11-28 13:09:21,804 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: user.home=/home/thingsboard
+2025-11-28 13:09:21,805 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: user.dir=/
+2025-11-28 13:09:21,805 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.memory.free=151MB
+2025-11-28 13:09:21,806 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.memory.max=1948MB
+2025-11-28 13:09:21,807 [main] INFO  o.t.s.q.e.EnvironmentLogService - ThingsBoard server environment: os.memory.total=460MB
+2025-11-28 13:09:22,239 [main] INFO  d.n.internal.NashornDetection - Delight-nashorn-sandbox detected that JDK Nashorn is absent and standalone Nashorn is present, and will use Standalone Nashorn
+2025-11-28 13:09:26,887 [main] INFO  o.t.s.a.service.DefaultActorService - Initializing actor system.
+2025-11-28 13:09:26,932 [main] INFO  o.t.s.a.service.DefaultActorService - Actor system initialized.
+2025-11-28 13:09:29,956 [main] INFO  o.t.s.c.t.c.ssl.SslCredentialsConfig - LWM2M Server DTLS Credentials: Skipping initialization of disabled SSL credentials.
+2025-11-28 13:09:29,980 [main] INFO  o.t.s.c.t.c.ssl.SslCredentialsConfig - LWM2M Trust Credentials: Skipping initialization of disabled SSL credentials.
+2025-11-28 13:09:30,022 [main] INFO  o.t.s.c.t.c.ssl.SslCredentialsConfig - LWM2M Bootstrap DTLS Credentials: Skipping initialization of disabled SSL credentials.
+2025-11-28 13:09:31,289 [main] INFO  o.t.s.c.SystemInfoController - System build info: {"version":"4.2.1","artifact":"application","name":"ThingsBoard Server Application","type":"CE"}
+2025-11-28 13:09:33,324 [main] INFO  o.t.s.c.adaptor.JsonConverterConfig - JSON max string value length = 0
+2025-11-28 13:09:33,326 [main] INFO  o.t.s.c.adaptor.JsonConverterConfig - JSON type cast enabled = true
+2025-11-28 13:09:33,547 [main] INFO  o.t.s.t.mqtt.MqttTransportService - Setting resource leak detector level to DISABLED
+2025-11-28 13:09:33,549 [main] INFO  o.t.s.t.mqtt.MqttTransportService - Starting MQTT transport...
+2025-11-28 13:09:33,717 [main] INFO  o.t.s.t.mqtt.MqttTransportService - Mqtt transport started!
+2025-11-28 13:09:33,926 [main] INFO  o.e.c.elements.config.Configuration - defaults added COAP.
+2025-11-28 13:09:33,970 [main] INFO  o.e.c.elements.config.Configuration - defaults added UDP.
+2025-11-28 13:09:33,975 [main] INFO  o.e.c.c.network.RandomTokenGenerator - using tokens of 8 bytes in length
+2025-11-28 13:09:34,075 [main] INFO  org.eclipse.californium.ban - Started.
+2025-11-28 13:09:34,082 [main] INFO  o.e.c.core.network.CoapEndpoint - coap CoapEndpoint uses udp context
+2025-11-28 13:09:34,125 [main] INFO  o.e.c.elements.config.Configuration - defaults added SYS.
+2025-11-28 13:09:34,126 [main] INFO  o.e.c.c.network.stack.BlockwiseLayer - coap BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=1024, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=268435456, BLOCKWISE_STRICT_BLOCK2_OPTION=true
+2025-11-28 13:09:34,164 [main] INFO  o.e.californium.core.CoapServer - Starting server
+2025-11-28 13:09:34,215 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector starts up 1 sender threads and 1 receiver threads
+2025-11-28 13:09:34,228 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector listening on /[0:0:0:0:0:0:0:0]:5683, recv buf = 106496, send buf = 106496, recv packet size = 2048
+2025-11-28 13:09:34,233 [main] INFO  o.e.c.core.network.CoapEndpoint - coap Started endpoint at coap://[0:0:0:0:0:0:0:0]:5683
+2025-11-28 13:09:34,240 [main] INFO  o.t.s.t.coap.CoapTransportService - Starting CoAP transport...
+2025-11-28 13:09:34,255 [main] INFO  o.t.s.t.coap.CoapTransportService - CoAP transport started!
+2025-11-28 13:09:34,423 [main] INFO  o.t.s.t.l.b.LwM2MTransportBootstrapService - Starting LwM2M transport bootstrap server...
+2025-11-28 13:09:34,491 [main] INFO  o.e.c.elements.util.JceProviderUtil - JCE default setup
+2025-11-28 13:09:34,559 [main] INFO  o.e.c.elements.util.JceProviderUtil - RSA: true, EC: true, AES: not restricted
+2025-11-28 13:09:34,580 [main] INFO  o.e.c.elements.util.JceProviderUtil - EdDSA supported by SunEC, Ed25519: true, Ed448: true
+2025-11-28 13:09:34,582 [main] INFO  o.e.c.elements.util.JceProviderUtil - JCE setup: SunEC version 17, ready.
+2025-11-28 13:09:34,718 [main] INFO  o.e.c.elements.config.Configuration - defaults added DTLS.
+2025-11-28 13:09:36,468 [main] WARN  o.e.l.s.b.LeshanBootstrapServerBuilder - configStore is set but you also provide a custom SessionManager so this store will not be used
+2025-11-28 13:09:36,547 [main] INFO  o.e.c.c.network.RandomTokenGenerator - using tokens of 8 bytes in length
+2025-11-28 13:09:36,554 [main] INFO  o.e.c.core.network.CoapEndpoint - [Bootstrap Server-coap://0.0.0.0:5687] CoapEndpoint uses udp context
+2025-11-28 13:09:36,557 [main] INFO  o.e.c.c.network.stack.BlockwiseLayer - [Bootstrap Server-coap://0.0.0.0:5687] BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=1024, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=268435456, BLOCKWISE_STRICT_BLOCK2_OPTION=true
+2025-11-28 13:09:36,619 [main] INFO  o.t.s.t.l.b.LwM2MTransportBootstrapService - Unable to load X509 files for LWM2MServer
+2025-11-28 13:09:36,647 [main] WARN  o.e.l.s.c.b.e.c.CoapsBootstrapServerEndpointFactory - PskStore should be automatically set by Leshan. Using a custom implementation is not advised.
+2025-11-28 13:09:36,813 [main] INFO  o.e.c.s.d.InMemoryReadWriteLockConnectionStore - Created new InMemoryConnectionStore [capacity: 150000, connection expiration threshold: 1800s]
+2025-11-28 13:09:36,827 [main] INFO  o.e.c.c.network.RandomTokenGenerator - using tokens of 8 bytes in length
+2025-11-28 13:09:36,829 [main] INFO  o.e.c.core.network.CoapEndpoint - [Bootstrap Server-coaps://0.0.0.0:5688] CoapEndpoint uses lwm2m correlation
+2025-11-28 13:09:36,831 [main] INFO  o.e.c.c.network.stack.BlockwiseLayer - [Bootstrap Server-coaps://0.0.0.0:5688] BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=1024, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=268435456, BLOCKWISE_STRICT_BLOCK2_OPTION=true
+2025-11-28 13:09:36,850 [main] INFO  o.e.californium.core.CoapServer - Starting server
+2025-11-28 13:09:36,870 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector starts up 2 sender threads and 2 receiver threads
+2025-11-28 13:09:36,877 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector listening on /[0:0:0:0:0:0:0:0]:5687, recv buf = 106496, send buf = 106496, recv packet size = 2048
+2025-11-28 13:09:36,879 [main] INFO  o.e.c.core.network.CoapEndpoint - [Bootstrap Server-coap://0.0.0.0:5687] Started endpoint at coap://[0:0:0:0:0:0:0:0]:5687
+2025-11-28 13:09:36,892 [main] INFO  o.e.c.scandium.DTLSConnector - multiple network interfaces, using smallest MTU [IPv4 1500, IPv6 1280]
+2025-11-28 13:09:36,906 [main] INFO  o.e.c.scandium.DTLSConnector - DTLSConnector listening on /[0:0:0:0:0:0:0:0]:5688, recv buf = 106496, send buf = 106496, recv packet size = 16490, MTU = IPv4 1500 / IPv6 1280
+2025-11-28 13:09:36,907 [DTLS-Receiver-1-/[0:0:0:0:0:0:0:0]:5688] INFO  o.e.c.scandium.DTLSConnector - Starting worker thread [DTLS-Receiver-1-/[0:0:0:0:0:0:0:0]:5688]
+2025-11-28 13:09:36,907 [DTLS-Receiver-0-/[0:0:0:0:0:0:0:0]:5688] INFO  o.e.c.scandium.DTLSConnector - Starting worker thread [DTLS-Receiver-0-/[0:0:0:0:0:0:0:0]:5688]
+2025-11-28 13:09:36,913 [main] INFO  o.e.c.core.network.CoapEndpoint - [Bootstrap Server-coaps://0.0.0.0:5688] Started endpoint at coaps://[0:0:0:0:0:0:0:0]:5688
+2025-11-28 13:09:36,921 [main] INFO  o.e.l.s.b.LeshanBootstrapServer - Bootstrap server started.
+2025-11-28 13:09:36,929 [main] INFO  o.e.l.s.b.LeshanBootstrapServer - CoAP over UDP endpoint based on Californium library available at coap://[0:0:0:0:0:0:0:0]:5687.
+2025-11-28 13:09:36,938 [main] INFO  o.e.l.s.b.LeshanBootstrapServer - CoAP over DTLS endpoint based on Californium/Scandium library available at coaps://[0:0:0:0:0:0:0:0]:5688.
+2025-11-28 13:09:36,945 [main] INFO  o.t.s.t.l.b.LwM2MTransportBootstrapService - Started LwM2M transport bootstrap server.
+2025-11-28 13:09:38,611 [main] INFO  o.t.s.t.s.s.SnmpTransportService - SNMP transport service initialized
+2025-11-28 13:09:38,721 [main] INFO  o.t.s.d.s.NamedParameterJdbcTemplateConfiguration - Set jdbcTemplate query timeout [30] second(s)
+2025-11-28 13:09:40,820 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Found 3 AuthenticationProvider beans, with names [jwtAuthenticationProvider, refreshTokenAuthenticationProvider, restAuthenticationProvider]. Global Authentication Manager will not be configured with AuthenticationProviders. Consider publishing a single AuthenticationProvider bean, or wiring your Providers directly using the DSL.
+2025-11-28 13:09:42,178 [main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page: class path resource [public/index.html]
+2025-11-28 13:09:44,993 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-11-28 13:09:51,191 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'relations' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,196 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'deviceCredentials' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,198 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'devices' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,200 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'sessions' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,204 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'assets' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,206 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'customers' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,208 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'users' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,211 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'entityViews' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,214 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'claimDevices' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,216 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'securitySettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,219 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenantProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,221 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenants' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,224 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tenantsExist' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,227 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'deviceProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,229 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'assetProfiles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,232 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'notificationSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,234 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'sentNotifications' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,236 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'attributes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,239 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'tsLatest' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,241 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'userSessionsInvalidation' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,245 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'otaPackages' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,246 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'otaPackagesData' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,248 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'edges' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,251 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'edgeSessions' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,254 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'relatedEdges' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,257 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'repositorySettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,259 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'autoCommitSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,262 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'twoFaVerificationCodes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,264 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'versionControlTask' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,265 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'userSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,267 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'dashboardTitles' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,269 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'entityCount' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,271 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'resourceInfo' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,273 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'alarmTypes' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,275 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'qrCodeSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,276 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'mobileSecretKey' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,278 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'trendzSettings' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:51,280 [main] WARN  i.m.c.i.b.cache.CaffeineCacheMetrics - The cache 'aiModel' is not recording statistics. No meters except 'cache.size' will be registered. Call 'Caffeine#recordStats()' prior to building the cache for metrics to be recorded.
+2025-11-28 13:09:52,869 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2025-11-28 13:09:52,872 [main] INFO  o.s.i.c.PublishSubscribeChannel - Channel 'application.errorChannel' has 1 subscriber(s).
+2025-11-28 13:09:52,876 [main] INFO  o.s.i.endpoint.EventDrivenConsumer - started bean '_org.springframework.integration.errorLogger'
+2025-11-28 13:09:53,218 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-0.0.0.0-9090"]
+2025-11-28 13:09:53,298 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path '/'
+2025-11-28 13:09:53,430 [main] INFO  o.t.s.ThingsboardServerApplication - Started ThingsboardServerApplication in 94.781 seconds (process running for 99.133)
+2025-11-28 13:09:53,446 [TB-Scheduling-2] INFO  o.t.s.c.t.s.DefaultTransportService - Transport Stats: openConnections [0]
+2025-11-28 13:09:53,488 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Version Control] Launching consumer
+2025-11-28 13:09:53,494 [main] INFO  o.t.s.q.d.HashPartitionService - Recalculating partitions
+2025-11-28 13:09:53,498 [main] INFO  o.t.s.q.d.HashPartitionService - [99c8d442646e] Found common server: [TB_CORE, TB_RULE_ENGINE, TB_TRANSPORT, JS_EXECUTOR, TB_VC_EXECUTOR, EDQS, TASK_PROCESSOR]
+2025-11-28 13:09:53,588 [main] INFO  o.t.s.q.d.HashPartitionService - Partitions changed: 
+[QK(Main,TB_VC_EXECUTOR,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-11-28 13:09:53,596 [main] INFO  o.t.s.q.d.HashPartitionService - Partitions changed: 
+[QK(Main,TB_CORE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[QK(Edge,TB_CORE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-11-28 13:09:53,625 [api-usage-scheduled-19-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage] CURRENT PARTITIONS: []
+2025-11-28 13:09:53,626 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State] CURRENT PARTITIONS: []
+2025-11-28 13:09:53,627 [main] INFO  o.t.s.a.service.DefaultActorService - Received partition change event.
+2025-11-28 13:09:53,628 [api-usage-scheduled-19-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage] NEW PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,629 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State] NEW PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,635 [api-usage-scheduled-19-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage] ADDED PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,636 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State] ADDED PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,639 [api-usage-scheduled-19-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage] REMOVED PARTITIONS: []
+2025-11-28 13:09:53,641 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State] REMOVED PARTITIONS: []
+2025-11-28 13:09:53,647 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler] CURRENT PARTITIONS: []
+2025-11-28 13:09:53,648 [api-usage-scheduled-19-thread-1] INFO  o.t.s.s.a.DefaultTbApiUsageStateService - Initializing tenant states.
+2025-11-28 13:09:53,650 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler] NEW PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,658 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler] ADDED PARTITIONS: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9]
+2025-11-28 13:09:53,663 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler] REMOVED PARTITIONS: []
+2025-11-28 13:09:53,658 [main] INFO  o.t.s.q.d.HashPartitionService - Partitions changed: 
+[QK(Main,EDQS,system)] - [0, 1, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-11-28 13:09:53,657 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)] Added partitions: [tb_core.0, tb_core.2, tb_core.4, tb_core.6, tb_core.8, tb_core.1, tb_core.3, tb_core.5, tb_core.7, tb_core.9], removed partitions: []
+2025-11-28 13:09:53,660 [tb-edge-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Edge,TB_CORE,system)] New partitions: [tb_edge.0, tb_edge.2, tb_edge.4, tb_edge.6, tb_edge.8, tb_edge.1, tb_edge.3, tb_edge.5, tb_edge.7, tb_edge.9]
+2025-11-28 13:09:53,667 [main] INFO  o.t.s.q.d.HashPartitionService - Partitions changed: 
+[QK(SequentialByOriginator,TB_RULE_ENGINE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[QK(CalculatedFields,TB_RULE_ENGINE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[QK(CalculatedFieldStates,TB_RULE_ENGINE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[QK(HighPriority,TB_RULE_ENGINE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[QK(Main,TB_RULE_ENGINE,system)] - [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-11-28 13:09:53,683 [main] INFO  o.t.s.a.service.DefaultActorService - Received partition change event.
+2025-11-28 13:09:53,688 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-0] Launching consumer
+2025-11-28 13:09:53,688 [tb-edge-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Edge,TB_CORE,system)] Launching consumer
+2025-11-28 13:09:53,690 [main] INFO  o.t.s.t.s.s.SnmpTransportBalancingService - Recalculating partitions for SNMP transports
+2025-11-28 13:09:53,701 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-2] Launching consumer
+2025-11-28 13:09:53,705 [main] INFO  o.t.s.t.s.s.SnmpTransportBalancingService - SNMP transports partitions have not changed
+2025-11-28 13:09:53,706 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-4] Launching consumer
+2025-11-28 13:09:53,718 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-6] Launching consumer
+2025-11-28 13:09:53,732 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-8] Launching consumer
+2025-11-28 13:09:53,735 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-1] Launching consumer
+2025-11-28 13:09:53,738 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-3] Launching consumer
+2025-11-28 13:09:53,743 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-5] Launching consumer
+2025-11-28 13:09:53,760 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-7] Launching consumer
+2025-11-28 13:09:53,767 [tb-core-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_CORE,system)-9] Launching consumer
+2025-11-28 13:09:55,012 [main] INFO  o.t.s.a.service.DefaultActorService - Received application ready event. Sending application init message to actor system
+2025-11-28 13:09:55,015 [app-dispatcher-31-thread-1] INFO  o.t.server.actors.app.AppActor - Starting main system actor.
+2025-11-28 13:09:55,088 [app-dispatcher-31-thread-1] INFO  o.t.server.actors.app.AppActor - Main system actor started.
+2025-11-28 13:09:55,126 [main] INFO  o.t.s.s.edge.rpc.EdgeGrpcService - Initializing Edge RPC service!
+2025-11-28 13:09:58,230 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler] Managing following partitions:
+2025-11-28 13:09:58,248 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.4]: 0 entities
+2025-11-28 13:09:58,266 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.8]: 0 entities
+2025-11-28 13:09:58,605 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.0]: 0 entities
+2025-11-28 13:09:58,618 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.3]: 0 entities
+2025-11-28 13:09:58,626 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.7]: 0 entities
+2025-11-28 13:09:58,629 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.2]: 0 entities
+2025-11-28 13:09:58,642 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.6]: 0 entities
+2025-11-28 13:09:58,654 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.5]: 0 entities
+2025-11-28 13:09:58,674 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.1]: 0 entities
+2025-11-28 13:09:58,681 [notifications-scheduler-49-thread-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Notifications scheduler][tb_core.9]: 0 entities
+2025-11-28 13:10:00,299 [main] INFO  o.t.s.s.edge.rpc.EdgeGrpcService - Going to start Edge RPC server using port: 7070
+2025-11-28 13:10:00,540 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.7] Submit task for device states: 1
+2025-11-28 13:10:00,567 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.0] Submit task for device states: 1
+2025-11-28 13:10:00,577 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.9] Submit task for device states: 1
+2025-11-28 13:10:00,587 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.2] Submit task for device states: 1
+2025-11-28 13:10:00,619 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.8] Submit task for device states: 2
+2025-11-28 13:10:00,652 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.5] Submit task for device states: 1
+2025-11-28 13:10:00,664 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.4] Submit task for device states: 1
+2025-11-28 13:10:00,707 [device-state-scheduled-21-thread-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [tb_core.1] Submit task for device states: 1
+2025-11-28 13:10:01,310 [device-state-0-5] INFO  o.t.s.s.s.DefaultDeviceStateService - [8] Initialized 2 out of 2 device states
+2025-11-28 13:10:01,387 [device-state-0-3] INFO  o.t.s.s.s.DefaultDeviceStateService - [9] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,392 [device-state-0-6] INFO  o.t.s.s.s.DefaultDeviceStateService - [5] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,417 [device-state-0-8] INFO  o.t.s.s.s.DefaultDeviceStateService - [1] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,426 [device-state-0-2] INFO  o.t.s.s.s.DefaultDeviceStateService - [0] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,418 [device-state-0-4] INFO  o.t.s.s.s.DefaultDeviceStateService - [2] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,420 [device-state-0-1] INFO  o.t.s.s.s.DefaultDeviceStateService - [7] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,433 [device-state-0-7] INFO  o.t.s.s.s.DefaultDeviceStateService - [4] Initialized 1 out of 1 device states
+2025-11-28 13:10:01,449 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State] Managing following partitions:
+2025-11-28 13:10:01,452 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.4]: 1 entities
+2025-11-28 13:10:01,460 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.8]: 2 entities
+2025-11-28 13:10:01,469 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.0]: 1 entities
+2025-11-28 13:10:01,479 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.3]: 0 entities
+2025-11-28 13:10:01,485 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.7]: 1 entities
+2025-11-28 13:10:01,495 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.2]: 1 entities
+2025-11-28 13:10:01,498 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.6]: 0 entities
+2025-11-28 13:10:01,505 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.5]: 1 entities
+2025-11-28 13:10:01,507 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.1]: 1 entities
+2025-11-28 13:10:01,511 [device-state-0-7] INFO  o.t.s.s.p.AbstractPartitionBasedService - [Device State][tb_core.9]: 1 entities
+2025-11-28 13:10:01,672 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage] Managing following partitions:
+2025-11-28 13:10:01,675 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.4]: 1 entities
+2025-11-28 13:10:01,676 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.8]: 0 entities
+2025-11-28 13:10:01,677 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.0]: 0 entities
+2025-11-28 13:10:01,679 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.3]: 0 entities
+2025-11-28 13:10:01,680 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.7]: 0 entities
+2025-11-28 13:10:01,683 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.2]: 0 entities
+2025-11-28 13:10:01,685 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.6]: 0 entities
+2025-11-28 13:10:01,686 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.5]: 0 entities
+2025-11-28 13:10:01,688 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.1]: 0 entities
+2025-11-28 13:10:01,694 [DbCallbackExecutorService-0-1] INFO  o.t.s.s.p.AbstractPartitionBasedService - [API Usage][tb_core.9]: 0 entities
+2025-11-28 13:10:02,427 [main] INFO  o.t.s.s.edge.rpc.EdgeGrpcService - Edge RPC service initialized!
+2025-11-28 13:10:02,469 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [Housekeeper reprocessing] Launching consumer
+2025-11-28 13:10:02,473 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [Housekeeper] Launching consumer
+2025-11-28 13:10:02,477 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [job-stats] Launching consumer
+2025-11-28 13:10:02,480 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Rule Engine Notifications] Launching consumer
+2025-11-28 13:10:02,508 [main] INFO  o.t.s.s.q.DefaultTbCalculatedFieldConsumerService - Handling partition change event: PartitionChangeEvent(super=TbApplicationEvent(sequenceNumber=4), serviceType=TB_RULE_ENGINE, newPartitions={QK(SequentialByOriginator,TB_RULE_ENGINE,system)=[tb_rule_engine.sq.0, tb_rule_engine.sq.2, tb_rule_engine.sq.4, tb_rule_engine.sq.6, tb_rule_engine.sq.8, tb_rule_engine.sq.1, tb_rule_engine.sq.3, tb_rule_engine.sq.5, tb_rule_engine.sq.7, tb_rule_engine.sq.9], QK(CalculatedFields,TB_RULE_ENGINE,system)=[tb_cf_event.1, tb_cf_event.3, tb_cf_event.5, tb_cf_event.7, tb_cf_event.9, tb_cf_event.0, tb_cf_event.2, tb_cf_event.4, tb_cf_event.6, tb_cf_event.8], QK(CalculatedFieldStates,TB_RULE_ENGINE,system)=[tb_cf_state.1, tb_cf_state.3, tb_cf_state.5, tb_cf_state.7, tb_cf_state.9, tb_cf_state.0, tb_cf_state.2, tb_cf_state.4, tb_cf_state.6, tb_cf_state.8], QK(HighPriority,TB_RULE_ENGINE,system)=[tb_rule_engine.hp.1, tb_rule_engine.hp.3, tb_rule_engine.hp.5, tb_rule_engine.hp.7, tb_rule_engine.hp.9, tb_rule_engine.hp.0, tb_rule_engine.hp.2, tb_rule_engine.hp.4, tb_rule_engine.hp.6, tb_rule_engine.hp.8], QK(Main,TB_RULE_ENGINE,system)=[tb_rule_engine.main.0, tb_rule_engine.main.2, tb_rule_engine.main.4, tb_rule_engine.main.6, tb_rule_engine.main.8, tb_rule_engine.main.1, tb_rule_engine.main.3, tb_rule_engine.main.5, tb_rule_engine.main.7, tb_rule_engine.main.9]}, oldPartitions={QK(Main,TB_CORE,system)=[], QK(Main,TB_VC_EXECUTOR,system)=[], QK(SequentialByOriginator,TB_RULE_ENGINE,system)=[], QK(Edge,TB_CORE,system)=[], QK(CalculatedFields,TB_RULE_ENGINE,system)=[], QK(CalculatedFieldStates,TB_RULE_ENGINE,system)=[], QK(HighPriority,TB_RULE_ENGINE,system)=[], QK(Main,EDQS,system)=[], QK(Main,TB_RULE_ENGINE,system)=[]})
+2025-11-28 13:10:02,569 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Core Notifications] Launching consumer
+2025-11-28 13:10:02,571 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Ota Package States] Launching consumer
+2025-11-28 13:10:02,576 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.PartitionedQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)] Added partitions: [tb_cf_event.1, tb_cf_event.3, tb_cf_event.5, tb_cf_event.7, tb_cf_event.9, tb_cf_event.0, tb_cf_event.2, tb_cf_event.4, tb_cf_event.6, tb_cf_event.8]
+2025-11-28 13:10:02,579 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Usage Stats] Launching consumer
+2025-11-28 13:10:02,579 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-1] Launching consumer
+2025-11-28 13:10:02,584 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Core Notifications] Launching consumer
+2025-11-28 13:10:02,588 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-3] Launching consumer
+2025-11-28 13:10:02,589 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Rule Engine Notifications] Launching consumer
+2025-11-28 13:10:02,594 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-5] Launching consumer
+2025-11-28 13:10:02,594 [notifications-tb-core-consumer-52-thread-11] INFO  o.t.s.s.q.DefaultTbCoreConsumerService - [99c8d442646e] Processing core startup with partitions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-11-28 13:10:02,600 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-7] Launching consumer
+2025-11-28 13:10:02,607 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-9] Launching consumer
+2025-11-28 13:10:02,611 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-0] Launching consumer
+2025-11-28 13:10:02,613 [DefaultTbLocalSubscriptionService-0-1] INFO  o.t.s.s.s.DefaultTbLocalSubscriptionService - [99c8d442646e] Pushed 0 subscriptions to [99c8d442646e]
+2025-11-28 13:10:02,615 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-2] Launching consumer
+2025-11-28 13:10:02,622 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-4] Launching consumer
+2025-11-28 13:10:02,625 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-6] Launching consumer
+2025-11-28 13:10:02,628 [tb-cf-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(CalculatedFields,TB_RULE_ENGINE,system)-8] Launching consumer
+2025-11-28 13:10:02,645 [main] INFO  o.t.s.s.q.DefaultTbRuleEngineConsumerService - Handling partition change event: PartitionChangeEvent(super=TbApplicationEvent(sequenceNumber=4), serviceType=TB_RULE_ENGINE, newPartitions={QK(SequentialByOriginator,TB_RULE_ENGINE,system)=[tb_rule_engine.sq.0, tb_rule_engine.sq.2, tb_rule_engine.sq.4, tb_rule_engine.sq.6, tb_rule_engine.sq.8, tb_rule_engine.sq.1, tb_rule_engine.sq.3, tb_rule_engine.sq.5, tb_rule_engine.sq.7, tb_rule_engine.sq.9], QK(CalculatedFields,TB_RULE_ENGINE,system)=[tb_cf_event.1, tb_cf_event.3, tb_cf_event.5, tb_cf_event.7, tb_cf_event.9, tb_cf_event.0, tb_cf_event.2, tb_cf_event.4, tb_cf_event.6, tb_cf_event.8], QK(CalculatedFieldStates,TB_RULE_ENGINE,system)=[tb_cf_state.1, tb_cf_state.3, tb_cf_state.5, tb_cf_state.7, tb_cf_state.9, tb_cf_state.0, tb_cf_state.2, tb_cf_state.4, tb_cf_state.6, tb_cf_state.8], QK(HighPriority,TB_RULE_ENGINE,system)=[tb_rule_engine.hp.1, tb_rule_engine.hp.3, tb_rule_engine.hp.5, tb_rule_engine.hp.7, tb_rule_engine.hp.9, tb_rule_engine.hp.0, tb_rule_engine.hp.2, tb_rule_engine.hp.4, tb_rule_engine.hp.6, tb_rule_engine.hp.8], QK(Main,TB_RULE_ENGINE,system)=[tb_rule_engine.main.0, tb_rule_engine.main.2, tb_rule_engine.main.4, tb_rule_engine.main.6, tb_rule_engine.main.8, tb_rule_engine.main.1, tb_rule_engine.main.3, tb_rule_engine.main.5, tb_rule_engine.main.7, tb_rule_engine.main.9]}, oldPartitions={QK(Main,TB_CORE,system)=[], QK(Main,TB_VC_EXECUTOR,system)=[], QK(SequentialByOriginator,TB_RULE_ENGINE,system)=[], QK(Edge,TB_CORE,system)=[], QK(CalculatedFields,TB_RULE_ENGINE,system)=[], QK(CalculatedFieldStates,TB_RULE_ENGINE,system)=[], QK(HighPriority,TB_RULE_ENGINE,system)=[], QK(Main,EDQS,system)=[], QK(Main,TB_RULE_ENGINE,system)=[]})
+2025-11-28 13:10:02,656 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)] Added partitions: [tb_rule_engine.sq.0, tb_rule_engine.sq.2, tb_rule_engine.sq.4, tb_rule_engine.sq.6, tb_rule_engine.sq.8, tb_rule_engine.sq.1, tb_rule_engine.sq.3, tb_rule_engine.sq.5, tb_rule_engine.sq.7, tb_rule_engine.sq.9], removed partitions: []
+2025-11-28 13:10:02,658 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-0] Launching consumer
+2025-11-28 13:10:02,659 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)] Added partitions: [tb_rule_engine.hp.1, tb_rule_engine.hp.3, tb_rule_engine.hp.5, tb_rule_engine.hp.7, tb_rule_engine.hp.9, tb_rule_engine.hp.0, tb_rule_engine.hp.2, tb_rule_engine.hp.4, tb_rule_engine.hp.6, tb_rule_engine.hp.8], removed partitions: []
+2025-11-28 13:10:02,659 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)] Added partitions: [tb_rule_engine.main.0, tb_rule_engine.main.2, tb_rule_engine.main.4, tb_rule_engine.main.6, tb_rule_engine.main.8, tb_rule_engine.main.1, tb_rule_engine.main.3, tb_rule_engine.main.5, tb_rule_engine.main.7, tb_rule_engine.main.9], removed partitions: []
+2025-11-28 13:10:02,664 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-1] Launching consumer
+2025-11-28 13:10:02,665 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-0] Launching consumer
+2025-11-28 13:10:02,669 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-3] Launching consumer
+2025-11-28 13:10:02,669 [main] INFO  o.t.s.s.t.TbCoreTransportApiService - Received application ready event. Starting polling for events.
+2025-11-28 13:10:02,671 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-2] Launching consumer
+2025-11-28 13:10:02,672 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-2] Launching consumer
+2025-11-28 13:10:02,680 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-5] Launching consumer
+2025-11-28 13:10:02,697 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-7] Launching consumer
+2025-11-28 13:10:02,698 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-4] Launching consumer
+2025-11-28 13:10:02,703 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-9] Launching consumer
+2025-11-28 13:10:02,704 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-4] Launching consumer
+2025-11-28 13:10:02,706 [main] INFO  o.t.s.q.c.c.QueueConsumerManager - [TB Transport] Launching consumer
+2025-11-28 13:10:02,715 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-6] Launching consumer
+2025-11-28 13:10:02,707 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-6] Launching consumer
+2025-11-28 13:10:02,710 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-0] Launching consumer
+2025-11-28 13:10:02,722 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-8] Launching consumer
+2025-11-28 13:10:02,727 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-8] Launching consumer
+2025-11-28 13:10:02,730 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-2] Launching consumer
+2025-11-28 13:10:02,733 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-1] Launching consumer
+2025-11-28 13:10:02,737 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-1] Launching consumer
+2025-11-28 13:10:02,739 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-4] Launching consumer
+2025-11-28 13:10:02,740 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-3] Launching consumer
+2025-11-28 13:10:02,742 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-3] Launching consumer
+2025-11-28 13:10:02,745 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-6] Launching consumer
+2025-11-28 13:10:02,749 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-5] Launching consumer
+2025-11-28 13:10:02,751 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-5] Launching consumer
+2025-11-28 13:10:02,757 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-7] Launching consumer
+2025-11-28 13:10:02,757 [tb-rule-engine-mgmt-0-2] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(HighPriority,TB_RULE_ENGINE,system)-8] Launching consumer
+2025-11-28 13:10:02,761 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-7] Launching consumer
+2025-11-28 13:10:02,768 [tb-rule-engine-mgmt-0-1] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(SequentialByOriginator,TB_RULE_ENGINE,system)-9] Launching consumer
+2025-11-28 13:10:02,775 [tb-rule-engine-mgmt-0-3] INFO  o.t.s.q.c.c.MainQueueConsumerManager - [QK(Main,TB_RULE_ENGINE,system)-9] Launching consumer
+2025-11-28 13:10:03,028 [main] INFO  o.e.c.c.network.RandomTokenGenerator - using tokens of 8 bytes in length
+2025-11-28 13:10:03,034 [main] INFO  o.e.c.core.network.CoapEndpoint - [LWM2M Server-coap://0.0.0.0:5685] CoapEndpoint uses udp context
+2025-11-28 13:10:03,036 [main] INFO  o.e.c.c.network.stack.BlockwiseLayer - [LWM2M Server-coap://0.0.0.0:5685] BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=1024, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=268435456, BLOCKWISE_STRICT_BLOCK2_OPTION=true
+2025-11-28 13:10:03,068 [main] INFO  o.t.s.t.l.s.DefaultLwM2mTransportService - Unable to load X509 files for LWM2MServer
+2025-11-28 13:10:03,076 [main] WARN  o.e.l.s.c.e.c.CoapsServerEndpointFactory - PskStore should be automatically set by Leshan. Using a custom implementation is not advised.
+2025-11-28 13:10:03,079 [main] INFO  o.e.c.s.d.InMemoryReadWriteLockConnectionStore - Created new InMemoryConnectionStore [capacity: 150000, connection expiration threshold: 1800s]
+2025-11-28 13:10:03,083 [main] INFO  o.e.c.c.network.RandomTokenGenerator - using tokens of 8 bytes in length
+2025-11-28 13:10:03,085 [main] INFO  o.e.c.core.network.CoapEndpoint - [LWM2M Server-coaps://0.0.0.0:5686] CoapEndpoint uses lwm2m correlation
+2025-11-28 13:10:03,087 [main] INFO  o.e.c.c.network.stack.BlockwiseLayer - [LWM2M Server-coaps://0.0.0.0:5686] BlockwiseLayer uses MAX_MESSAGE_SIZE=1024, PREFERRED_BLOCK_SIZE=1024, BLOCKWISE_STATUS_LIFETIME=300000, MAX_RESOURCE_BODY_SIZE=268435456, BLOCKWISE_STRICT_BLOCK2_OPTION=true
+2025-11-28 13:10:03,216 [main] INFO  o.t.s.t.l.s.DefaultLwM2mTransportService - Starting LwM2M transport server...
+2025-11-28 13:10:03,242 [main] INFO  o.e.californium.core.CoapServer - Starting server
+2025-11-28 13:10:03,257 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector starts up 2 sender threads and 2 receiver threads
+2025-11-28 13:10:03,282 [main] INFO  o.e.c.elements.UDPConnector - UDPConnector listening on /[0:0:0:0:0:0:0:0]:5685, recv buf = 106496, send buf = 106496, recv packet size = 2048
+2025-11-28 13:10:03,286 [main] INFO  o.e.c.core.network.CoapEndpoint - [LWM2M Server-coap://0.0.0.0:5685] Started endpoint at coap://[0:0:0:0:0:0:0:0]:5685
+2025-11-28 13:10:03,291 [main] INFO  o.e.c.scandium.DTLSConnector - multiple network interfaces, using smallest MTU [IPv4 1500, IPv6 1280]
+2025-11-28 13:10:03,307 [DTLS-Receiver-0-/[0:0:0:0:0:0:0:0]:5686] INFO  o.e.c.scandium.DTLSConnector - Starting worker thread [DTLS-Receiver-0-/[0:0:0:0:0:0:0:0]:5686]
+2025-11-28 13:10:03,312 [main] INFO  o.e.c.scandium.DTLSConnector - DTLSConnector listening on /[0:0:0:0:0:0:0:0]:5686, recv buf = 106496, send buf = 106496, recv packet size = 16490, MTU = IPv4 1500 / IPv6 1280
+2025-11-28 13:10:03,317 [main] INFO  o.e.c.core.network.CoapEndpoint - [LWM2M Server-coaps://0.0.0.0:5686] Started endpoint at coaps://[0:0:0:0:0:0:0:0]:5686
+2025-11-28 13:10:03,319 [main] INFO  o.eclipse.leshan.server.LeshanServer - LWM2M server started.
+2025-11-28 13:10:03,321 [DTLS-Receiver-1-/[0:0:0:0:0:0:0:0]:5686] INFO  o.e.c.scandium.DTLSConnector - Starting worker thread [DTLS-Receiver-1-/[0:0:0:0:0:0:0:0]:5686]
+2025-11-28 13:10:03,323 [main] INFO  o.eclipse.leshan.server.LeshanServer - CoAP over UDP endpoint based on Californium library available at coap://[0:0:0:0:0:0:0:0]:5685.
+2025-11-28 13:10:03,328 [main] INFO  o.eclipse.leshan.server.LeshanServer - CoAP over DTLS endpoint based on Californium/Scandium library available at coaps://[0:0:0:0:0:0:0:0]:5686.
+2025-11-28 13:10:03,381 [main] INFO  o.t.s.t.l.s.DefaultLwM2mTransportService - Started LwM2M transport server.
+2025-11-28 13:10:03,384 [main] INFO  o.t.s.t.snmp.SnmpTransportContext - Initializing SNMP devices sessions
+2025-11-28 13:10:05,938 [tb-system-info-scheduler-68-thread-1] INFO  c.d.oss.driver.api.core.uuid.Uuids - PID obtained through native call to getpid(): 178
+2025-11-28 13:10:08,650 [main] INFO  o.t.s.ThingsboardServerApplication - Started ThingsBoard in 110 seconds
+2025-11-28 13:10:09,671 [rule-dispatcher-0-4] INFO  o.t.s.d.s.i.s.SqlPartitioningRepository - Saving partition 1764201600000-1764806400000 for table lc_event
+2025-11-28 13:10:13,192 [git-sync-43-thread-1] INFO  o.t.s.s.sync.DefaultGitSyncService - [gateways-dashboard] Initialized repository
+2025-11-28 13:10:13,937 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS] queueSize [0] totalAdded [15] totalSaved [15] totalFailed [0]
+2025-11-28 13:10:14,194 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS Latest] queueSize [0] totalAdded [15] totalSaved [15] totalFailed [0]
+2025-11-28 13:10:14,545 [git-sync-43-thread-1] INFO  o.t.s.d.resource.BaseResourceService - Updating system resource gateway-management-extension.js
+2025-11-28 13:10:14,572 [git-sync-43-thread-1] INFO  org.owasp.validator.html.Policy - Attempting to load AntiSamy policy from an input stream.
+2025-11-28 13:10:14,887 [git-sync-43-thread-1] WARN  org.owasp.validator.html.Policy - The directive "noopenerAndNoreferrerAnchors" is enabled by default, but disabled in this policy. It is recommended to leave it enabled to prevent reverse tabnabbing attacks.
+2025-11-28 13:10:15,785 [app-dispatcher-31-thread-1] WARN  o.t.server.actors.app.AppActor - Message has system tenant id: ComponentLifecycleMsg(tenantId=13814000-1dd2-11b2-8080-808080808080, entityId=48d7ae30-cc5b-11f0-b6d6-1dd8d2074df4, event=UPDATED, oldName=null, name=null, oldProfileId=null, profileId=null, info=null)
+2025-11-28 13:10:16,291 [app-dispatcher-31-thread-1] WARN  o.t.server.actors.app.AppActor - Message has system tenant id: ComponentLifecycleMsg(tenantId=13814000-1dd2-11b2-8080-808080808080, entityId=48d3b690-cc5b-11f0-b6d6-1dd8d2074df4, event=UPDATED, oldName=null, name=null, oldProfileId=null, profileId=null, info=null)
+2025-11-28 13:10:17,122 [git-sync-43-thread-1] INFO  o.t.s.d.resource.BaseResourceService - Updating system resource gateways_dashboard.json
+2025-11-28 13:10:17,140 [git-sync-43-thread-1] INFO  o.t.s.s.e.d.DashboardSyncService - Gateways dashboard sync completed
+2025-11-28 13:10:17,147 [app-dispatcher-31-thread-1] WARN  o.t.server.actors.app.AppActor - Message has system tenant id: ComponentLifecycleMsg(tenantId=13814000-1dd2-11b2-8080-808080808080, entityId=48fc2620-cc5b-11f0-b6d6-1dd8d2074df4, event=UPDATED, oldName=null, name=null, oldProfileId=null, profileId=null, info=null)
+2025-11-28 13:10:19,581 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-0 [Events] queueSize [0] totalAdded [8] totalSaved [8] totalFailed [0]
+2025-11-28 13:10:19,583 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [Events] queueSize [0] totalAdded [4] totalSaved [4] totalFailed [0]
+2025-11-28 13:10:19,584 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-2 [Events] queueSize [0] totalAdded [4] totalSaved [4] totalFailed [0]
+2025-11-28 13:10:43,933 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS] queueSize [0] totalAdded [4] totalSaved [4] totalFailed [0]
+2025-11-28 13:10:44,003 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS Latest] queueSize [0] totalAdded [4] totalSaved [4] totalFailed [0]
+2025-11-28 13:10:53,389 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - Total timing statistics below:
+2025-11-28 13:10:53,393 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - [4903a030-cc5b-11f0-b6d6-1dd8d2074df4]: calls: 42, failures: 0, exec time: 25240 
+2025-11-28 13:10:53,395 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - [4903a030-cc5b-11f0-b6d6-1dd8d2074df4] Top 3 methods by timing:
+2025-11-28 13:10:53,396 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - [4903a030-cc5b-11f0-b6d6-1dd8d2074df4]: method: JpaAbstractDao.findById(..), calls: 32, failures: 0, exec time: 11726
+2025-11-28 13:10:53,397 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - [4903a030-cc5b-11f0-b6d6-1dd8d2074df4]: method: JpaRelationDao.findAllByFrom(..), calls: 2, failures: 0, exec time: 8834
+2025-11-28 13:10:53,398 [TB-Scheduling-8] INFO  o.t.s.dao.aspect.SqlDaoCallsAspect - [4903a030-cc5b-11f0-b6d6-1dd8d2074df4]: method: JpaRuleChainDao.findRuleChainsByTenantIdAndType(..), calls: 1, failures: 0, exec time: 2910
+2025-11-28 13:10:53,446 [TB-Scheduling-9] INFO  o.t.s.c.t.s.DefaultTransportService - Transport Stats: openConnections [0]
+2025-11-28 13:10:53,450 [TB-Scheduling-10] INFO  o.t.s.s.queue.TbCoreConsumerStats - Core Stats: totalMsgs = [4] sessionEvents = [0] getAttr = [0] subToAttr = [0] subToRpc = [0] toDevRpc = [0] subInfo = [0] claimDevice = [0] deviceState = [0] subMsgs = [0] deviceConnect = [0] deviceActivity = [0] deviceDisconnect = [0] deviceInactivity = [0] deviceInactivityTimeoutUpdate = [0] coreNfOther = [1] coreNfCompLfcl = [3] coreNfDevRpcRsp = [0] coreNfNfRlProc = [0] coreNfQueueUpd = [0] coreNfQueueDel = [0] coreNfSubSvc = [0] coreNfSubMgr = [0] coreNfVCRsp = [0] 
+2025-11-28 13:10:53,450 [TB-Scheduling-3] INFO  o.t.s.s.queue.EdgeConsumerStats - Edge Stats: totalMsgs = [14] edgeNfs = [14] coreNfEdgeHPUpd = [0] coreNfEdgeUpd = [0] coreNfEdgeSyncReq = [0] coreNfEdgeSyncResp = [0] coreNfEdgeCompLfcl = [0] 
+2025-11-28 13:11:13,930 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS] queueSize [0] totalAdded [7] totalSaved [7] totalFailed [0]
+2025-11-28 13:11:13,999 [sql-log-2-thread-1] INFO  o.t.s.dao.sql.TbSqlBlockingQueue - Queue-1 [TS Latest] queueSize [0] totalAdded [7] totalSaved [7] totalFailed [0]
