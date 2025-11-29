@@ -20,3 +20,13 @@ services:
     volumes:
       - ./thingsboard/data:/data
       - ./thingsboard/logs:/var/log/thingsboard
+
+  fastapi:
+    build: ./fastapi
+    container_name: fastapi-clima
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data        # para enxergar CSVs tratados
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
