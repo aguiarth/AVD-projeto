@@ -30,3 +30,18 @@ services:
     volumes:
       - ./data:/app/data        # para enxergar CSVs tratados
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+  
+  minio:
+    image: minio/minio
+    container_name: minio
+    restart: always
+    ports:
+      - "9000:9000"   # API S3 compatível
+      - "9001:9001"   # painel web
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: admin12345
+    volumes:
+      - ./minio/data:/data
+    command: server /data --console-address ":9001"
+

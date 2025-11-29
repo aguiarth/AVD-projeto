@@ -1,3 +1,7 @@
 # Ignorar dados e logs do ThingsBoard
 thingsboard/data/
 thingsboard/logs/
+
+# Ignorar dados e metadados do MinIO
+minio/data/
+minio/logs/
