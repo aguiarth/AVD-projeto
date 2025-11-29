@@ -14,7 +14,7 @@ services:
     container_name: thingsboard
     restart: always
     ports:
-      - "8080:8080"
+      - "8090:9090"
     environment:
       TB_QUEUE_TYPE: in-memory
     volumes:
