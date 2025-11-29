@@ -1,0 +1,3 @@
+# Ignorar dados e logs do ThingsBoard
+thingsboard/data/
+thingsboard/logs/
