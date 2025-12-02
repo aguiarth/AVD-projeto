@@ -5,3 +5,38 @@ thingsboard/logs/
 # Ignorar dados e metadados do MinIO
 minio/data/
 minio/logs/
+
+# Dados brutos e processados
+data/
+
+# Ambiente virtual Python
+venv/
+env/
+.venv/
+
+# MLflow
+mlflow/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

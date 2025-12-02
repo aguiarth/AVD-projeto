@@ -1,19 +1,21 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
+from datetime import datetime
 import pandas as pd
 
 from minio import Minio
 from minio.error import S3Error
 import io
+import json
 
 app = FastAPI(
     title="API Clima Uva Vale do São Francisco",
-    description="API para acessar dados climatológicos tratados do INMET",
-    version="0.1.0",
+    description="API para receber dados do ThingsBoard e gerenciar pipeline de dados climáticos",
+    version="0.2.0",
 )
 
-# Liberar CORS (se depois quiser consumir de um frontend)
+# Liberar CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,13 +24,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Caminho para os CSVs tratados (usados no notebook)
-BASE_PROC = Path("/app/data/processed")
-
 # ============================
 # CONFIGURAÇÃO DO MINIO
 # ============================
-MINIO_ENDPOINT = "minio:9000"          # nome do serviço no docker-compose
+MINIO_ENDPOINT = "minio:9000"
 MINIO_ACCESS_KEY = "admin"
 MINIO_SECRET_KEY = "admin12345"
 MINIO_USE_SSL = False
@@ -41,7 +40,7 @@ minio_client = Minio(
     secure=MINIO_USE_SSL,
 )
 
-# Garante que o bucket de dados brutos exista
+# Garante que o bucket existe
 if not minio_client.bucket_exists(RAW_BUCKET):
     minio_client.make_bucket(RAW_BUCKET)
 
@@ -49,66 +48,170 @@ if not minio_client.bucket_exists(RAW_BUCKET):
 @app.get("/health")
 def health_check():
     """Endpoint simples para testar se a API está no ar."""
-    return {"status": "ok", "message": "API rodando!"}
-
-
-@app.get("/datasets")
-def listar_datasets():
-    """Lista todos os arquivos CSV tratados disponíveis."""
-    if not BASE_PROC.exists():
-        raise HTTPException(status_code=500, detail="Pasta de dados não encontrada.")
-
-    arquivos = sorted(BASE_PROC.glob("*_tratado.csv"))
     return {
-        "quantidade": len(arquivos),
-        "arquivos": [a.name for a in arquivos],
+        "status": "ok",
+        "message": "API rodando!",
+        "timestamp": datetime.utcnow().isoformat()
     }
 
 
-@app.get("/datasets/{nome_arquivo}/head")
-def mostrar_head(nome_arquivo: str, n: int = 5):
-    """
-    Devolve as primeiras linhas de um CSV tratado.
-    Exemplo:
-    /datasets/petrolina_2024_tratado.csv/head?n=10
-    """
-    caminho = BASE_PROC / nome_arquivo
+# ============================
+# WEBHOOK DO THINGSBOARD
+# ============================
 
-    if not caminho.exists():
-        raise HTTPException(status_code=404, detail="Arquivo não encontrado.")
+@app.post("/webhook/inmet/{device_name}")
+async def receive_from_thingsboard(device_name: str, request: Request):
+    """
+    Recebe telemetria do ThingsBoard e salva no MinIO (bucket inmet-raw)
+    em formato JSON bruto, organizado por device/ano/mes.
+    
+    O ThingsBoard envia dados no formato:
+    {
+        "ts": 1234567890000,
+        "values": {
+            "temp_ar": 25.5,
+            "umidade": 70.0,
+            ...
+        }
+    }
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="JSON inválido")
+
+    # Enriquecer dados com metadados
+    data_to_save = {
+        "device_name": device_name,
+        "received_at": datetime.utcnow().isoformat(),
+        "data": body
+    }
+
+    # Organizar por: inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
+    now = datetime.utcnow()
+    object_name = f"inmet/{device_name}/{now.year}/{now.month:02d}/{now.strftime('%Y%m%d_%H%M%S')}.json"
+
+    data_bytes = json.dumps(data_to_save, indent=2).encode("utf-8")
+    data_stream = io.BytesIO(data_bytes)
 
     try:
-        df = pd.read_csv(caminho, index_col=0, parse_dates=True)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao ler CSV: {e}")
+        minio_client.put_object(
+            RAW_BUCKET,
+            object_name,
+            data_stream,
+            length=len(data_bytes),
+            content_type="application/json",
+        )
+    except S3Error as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao salvar no MinIO: {e}")
 
     return {
-        "arquivo": nome_arquivo,
-        "linhas": len(df),
-        "colunas": list(df.columns),
-        "amostra": df.head(n).reset_index().to_dict(orient="records"),
+        "status": "ok",
+        "bucket": RAW_BUCKET,
+        "object": object_name,
+        "device": device_name,
+        "timestamp": data_to_save["received_at"]
     }
 
 
 # ============================
-# NOVOS ENDPOINTS: INMET BRUTO → MINIO
+# ENDPOINTS DE LISTAGEM
 # ============================
 
-@app.post("/upload-inmet")
-async def upload_inmet_csv(file: UploadFile = File(...)):
+@app.get("/minio/files")
+def listar_arquivos_minio(prefix: str = ""):
     """
-    Recebe um CSV bruto do INMET e envia para o bucket inmet-raw no MinIO.
+    Lista os arquivos armazenados no bucket inmet-raw do MinIO.
+    Use o parâmetro 'prefix' para filtrar (ex: prefix=inmet/petrolina)
+    """
+    try:
+        objetos = minio_client.list_objects(RAW_BUCKET, prefix=prefix, recursive=True)
+        arquivos = []
+        
+        for obj in objetos:
+            arquivos.append({
+                "name": obj.object_name,
+                "size": obj.size,
+                "last_modified": obj.last_modified.isoformat() if obj.last_modified else None
+            })
+        
+        return {
+            "bucket": RAW_BUCKET,
+            "prefix": prefix,
+            "total": len(arquivos),
+            "arquivos": arquivos
+        }
+    except S3Error as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao listar objetos: {e}")
+
+
+@app.get("/minio/download/{path:path}")
+def download_arquivo_minio(path: str):
+    """
+    Baixa um arquivo específico do MinIO.
+    Exemplo: /minio/download/inmet/petrolina/2024/01/20240101_120000.json
+    """
+    try:
+        response = minio_client.get_object(RAW_BUCKET, path)
+        content = response.read()
+        
+        # Se for JSON, retorna como dict
+        if path.endswith(".json"):
+            return json.loads(content)
+        else:
+            return {"content": content.decode("utf-8")}
+    except S3Error as e:
+        raise HTTPException(status_code=404, detail=f"Arquivo não encontrado: {e}")
+
+
+@app.get("/minio/stats")
+def estatisticas_minio():
+    """
+    Retorna estatísticas sobre os dados armazenados no MinIO.
+    """
+    try:
+        objetos = list(minio_client.list_objects(RAW_BUCKET, recursive=True))
+        
+        total_size = sum(obj.size for obj in objetos)
+        devices = {}
+        
+        for obj in objetos:
+            # Extrair device do path (inmet/<device>/...)
+            parts = obj.object_name.split("/")
+            if len(parts) >= 2 and parts[0] == "inmet":
+                device = parts[1]
+                devices[device] = devices.get(device, 0) + 1
+        
+        return {
+            "bucket": RAW_BUCKET,
+            "total_arquivos": len(objetos),
+            "total_size_bytes": total_size,
+            "total_size_mb": round(total_size / (1024 * 1024), 2),
+            "devices": devices
+        }
+    except S3Error as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao obter estatísticas: {e}")
+
+
+# ============================
+# UPLOAD MANUAL (para testes)
+# ============================
+
+@app.post("/upload-csv")
+async def upload_csv_manual(file: UploadFile = File(...)):
+    """
+    Upload manual de CSV para testes.
+    Salva no MinIO em: uploads/<filename>
     """
     if not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=400, detail="Envie um arquivo .csv")
 
     try:
-        # lê o arquivo inteiro em memória
         file_bytes = await file.read()
         data_stream = io.BytesIO(file_bytes)
         size = len(file_bytes)
 
-        object_name = file.filename  # nome do objeto no MinIO
+        object_name = f"uploads/{file.filename}"
 
         minio_client.put_object(
             RAW_BUCKET,
@@ -129,16 +232,3 @@ async def upload_inmet_csv(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Erro ao salvar no MinIO: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro inesperado: {e}")
-
-
-@app.get("/inmet-raw-files")
-def listar_arquivos_brutos():
-    """
-    Lista os arquivos brutos armazenados no bucket inmet-raw do MinIO.
-    """
-    try:
-        objetos = minio_client.list_objects(RAW_BUCKET, recursive=True)
-        nomes = [obj.object_name for obj in objetos]
-        return {"bucket": RAW_BUCKET, "arquivos": nomes}
-    except S3Error as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao listar objetos: {e}")

@@ -5,3 +5,4 @@ python-multipart
 minio
 snowflake-connector-python
 snowflake-sqlalchemy
+requests
