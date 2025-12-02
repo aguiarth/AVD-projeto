@@ -1,3 +1,71 @@
+# -------------------------------------------------------------------------
+# IGNORE: Ambientes e Logs
+# -------------------------------------------------------------------------
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv/
+env/
+pip-log.txt
+pip-delete-this-file.txt
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+# Excluir dados temporários da execução local
+.jupyter/
+.vscode/
+
+# -------------------------------------------------------------------------
+# IGNORE: Dados e Artefatos do Pipeline
+# -------------------------------------------------------------------------
+# Diretórios de dados (Geralmente montados via volume)
+data/
+# Exceto os arquivos RAW, se estiverem versionados manualmente
+!data/
+!data/raw/
+
+# Logs e arquivos de banco de dados locais
+*.log
+*.sqlite
+*.db
+
+# Artefatos do MLFlow
+mlruns/
+# Pastas de artefatos temporários
+.mlflow/
+
+# -------------------------------------------------------------------------
+# IGNORE: Artefatos do Sistema Operacional
+# -------------------------------------------------------------------------
+# Windows
+Thumbs.db
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# -------------------------------------------------------------------------
+# IGNORE: Arquivos de Contêineres
+# -------------------------------------------------------------------------
+# Pastas de volume do Docker (se não estiverem em data/)
+minio_data/
+postgres_data/
+
+# Arquivos de imagem Docker
+*.tar
+
+# Variáveis de ambiente (Segurança)
+.env
+
+# -------------------------------------------------------------------------
+# IGNORE: ThingsBoard e MinIO
+# -------------------------------------------------------------------------
+
 # Ignorar dados e logs do ThingsBoard
 thingsboard/data/
 thingsboard/logs/
