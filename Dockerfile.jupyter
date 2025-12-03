@@ -1,0 +1,11 @@
+FROM jupyter/datascience-notebook
+
+# Instala as dependências necessárias (usando root temporariamente para instalar globalmente)
+USER root
+RUN pip install --no-cache-dir \
+    snowflake-connector-python \
+    snowflake-connector-python[pandas] \
+    snowflake-sqlalchemy
+
+# Retorna ao usuário padrão (jovyan) para manter a segurança
+USER jovyan

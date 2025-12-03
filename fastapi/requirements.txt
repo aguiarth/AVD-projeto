@@ -1,8 +1,9 @@
 fastapi
 uvicorn[standard]
 pandas
+snowflake-connector-python
+snowflake-connector-python[pandas]
 python-multipart
 minio
-snowflake-connector-python
 snowflake-sqlalchemy
 requests

@@ -1,6 +1,8 @@
 services:
   jupyterlab:
-    image: jupyter/datascience-notebook
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
     container_name: jupyter-uva
     ports:
       - "8888:8888"
