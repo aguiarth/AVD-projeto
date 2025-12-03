@@ -10,6 +10,8 @@ services:
       - ./notebooks:/home/jovyan/work
       - ./data:/home/jovyan/data
     command: start-notebook.sh --NotebookApp.token=''
+    networks:
+      - avd-network
 
   thingsboard:
     image: thingsboard/tb-postgres
@@ -58,3 +60,9 @@ services:
     volumes:
       - ./mlflow:/mlflow
     command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/artifacts --host 0.0.0.0
+    networks:
+      - avd-network
+
+networks:
+  avd-network:
+    driver: bridge

@@ -2,10 +2,15 @@ FROM jupyter/datascience-notebook
 
 # Instala as dependências necessárias (usando root temporariamente para instalar globalmente)
 USER root
+# Configurar variável de ambiente para protobuf antes de instalar mlflow
+ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
 RUN pip install --no-cache-dir \
+    "protobuf<4.0" \
     snowflake-connector-python \
     snowflake-connector-python[pandas] \
-    snowflake-sqlalchemy
+    snowflake-sqlalchemy \
+    mlflow \
+    scikit-learn
 
 # Retorna ao usuário padrão (jovyan) para manter a segurança
 USER jovyan
