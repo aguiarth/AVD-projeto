@@ -41,8 +41,8 @@ FASTAPI_URL = "http://localhost:8000"
 MINIO_CONSOLE = "http://localhost:9001"
 
 DEVICES = {
-    "INMET_Petrolina": "Sg2x96EjqTz4cblrUwtzS",
-    "INMET_Garanhuns": "J3nv6VcUL9xrSDuWXE9b",
+    "INMET_Petrolina": "KqtPqGEvNa372lyyctey",
+    "INMET_Garanhuns": "C4dThEy9BtBgco99L3WL",
 }
 
 

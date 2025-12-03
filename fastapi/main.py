@@ -1,21 +1,22 @@
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from pathlib import Path
 from datetime import datetime
-import pandas as pd
+from pathlib import Path
+import io
+import json
 
 from minio import Minio
 from minio.error import S3Error
-import io
-import json
 
 app = FastAPI(
     title="API Clima Uva Vale do São Francisco",
     description="API para receber dados do ThingsBoard e gerenciar pipeline de dados climáticos",
-    version="0.2.0",
+    version="0.3.0",
 )
 
-# Liberar CORS
+# ============================
+# CORS
+# ============================
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -27,6 +28,7 @@ app.add_middleware(
 # ============================
 # CONFIGURAÇÃO DO MINIO
 # ============================
+# Se estiver em docker-compose, normalmente o serviço é "minio:9000"
 MINIO_ENDPOINT = "minio:9000"
 MINIO_ACCESS_KEY = "admin"
 MINIO_SECRET_KEY = "admin12345"
@@ -45,13 +47,17 @@ if not minio_client.bucket_exists(RAW_BUCKET):
     minio_client.make_bucket(RAW_BUCKET)
 
 
+# ============================
+# HEALTHCHECK
+# ============================
+
 @app.get("/health")
 def health_check():
     """Endpoint simples para testar se a API está no ar."""
     return {
         "status": "ok",
         "message": "API rodando!",
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.utcnow().isoformat(),
     }
 
 
@@ -63,33 +69,67 @@ def health_check():
 async def receive_from_thingsboard(device_name: str, request: Request):
     """
     Recebe telemetria do ThingsBoard e salva no MinIO (bucket inmet-raw)
-    em formato JSON bruto, organizado por device/ano/mes.
-    
-    O ThingsBoard envia dados no formato:
-    {
-        "ts": 1234567890000,
-        "values": {
-            "temp_ar": 25.5,
-            "umidade": 70.0,
-            ...
-        }
-    }
+    em formato JSON, organizado por: inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
+
+    Formatos aceitos (payload vindo da Rule Chain):
+
+    1) Objeto único:
+       {
+         "ts": 1234567890000,
+         "values": { ... }
+       }
+
+    2) Lista de objetos:
+       [
+         {"ts": 1234567890000, "values": { ... }},
+         ...
+       ]
     """
     try:
         body = await request.json()
     except Exception:
         raise HTTPException(status_code=400, detail="JSON inválido")
 
-    # Enriquecer dados com metadados
+    # Metadados adicionados pela API
     data_to_save = {
         "device_name": device_name,
         "received_at": datetime.utcnow().isoformat(),
-        "data": body
+        "data": body,
     }
 
-    # Organizar por: inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
-    now = datetime.utcnow()
-    object_name = f"inmet/{device_name}/{now.year}/{now.month:02d}/{now.strftime('%Y%m%d_%H%M%S')}.json"
+    # ============================
+    # 1) Descobrir o timestamp correto
+    # ============================
+    ts_ms = None
+
+    # Caso 1: payload é um único objeto
+    if isinstance(body, dict) and "ts" in body:
+        ts_ms = body["ts"]
+
+    # Caso 2: payload é uma lista de objetos
+    elif isinstance(body, list) and body and isinstance(body[0], dict) and "ts" in body[0]:
+        ts_ms = body[0]["ts"]
+
+    # Converter para datetime
+    if ts_ms is not None:
+        try:
+            ts_int = int(ts_ms)
+            ts_dt = datetime.utcfromtimestamp(ts_int / 1000.0)
+        except Exception:
+            ts_dt = datetime.utcnow()
+    else:
+        # Se não veio timestamp, usa horário de recebimento
+        ts_dt = datetime.utcnow()
+
+    # ============================
+    # 2) Montar o path com base NO ts
+    # ============================
+    # inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
+    object_name = (
+        f"inmet/{device_name}/"
+        f"{ts_dt.year}/{ts_dt.month:02d}/"
+        f"{ts_dt.strftime('%Y%m%d_%H%M%S')}.json"
+    )
 
     data_bytes = json.dumps(data_to_save, indent=2).encode("utf-8")
     data_stream = io.BytesIO(data_bytes)
@@ -110,36 +150,40 @@ async def receive_from_thingsboard(device_name: str, request: Request):
         "bucket": RAW_BUCKET,
         "object": object_name,
         "device": device_name,
-        "timestamp": data_to_save["received_at"]
+        "timestamp": data_to_save["received_at"],
     }
 
 
 # ============================
-# ENDPOINTS DE LISTAGEM
+# LISTAGEM DE ARQUIVOS
 # ============================
 
 @app.get("/minio/files")
 def listar_arquivos_minio(prefix: str = ""):
     """
     Lista os arquivos armazenados no bucket inmet-raw do MinIO.
-    Use o parâmetro 'prefix' para filtrar (ex: prefix=inmet/petrolina)
+    Use 'prefix' para filtrar (ex: prefix=inmet/INMET_Petrolina).
     """
     try:
         objetos = minio_client.list_objects(RAW_BUCKET, prefix=prefix, recursive=True)
         arquivos = []
-        
+
         for obj in objetos:
-            arquivos.append({
-                "name": obj.object_name,
-                "size": obj.size,
-                "last_modified": obj.last_modified.isoformat() if obj.last_modified else None
-            })
-        
+            arquivos.append(
+                {
+                    "name": obj.object_name,
+                    "size": obj.size,
+                    "last_modified": obj.last_modified.isoformat()
+                    if obj.last_modified
+                    else None,
+                }
+            )
+
         return {
             "bucket": RAW_BUCKET,
             "prefix": prefix,
             "total": len(arquivos),
-            "arquivos": arquivos
+            "arquivos": arquivos,
         }
     except S3Error as e:
         raise HTTPException(status_code=500, detail=f"Erro ao listar objetos: {e}")
@@ -149,13 +193,12 @@ def listar_arquivos_minio(prefix: str = ""):
 def download_arquivo_minio(path: str):
     """
     Baixa um arquivo específico do MinIO.
-    Exemplo: /minio/download/inmet/petrolina/2024/01/20240101_120000.json
+    Exemplo: /minio/download/inmet/INMET_Petrolina/2024/01/20240101_120000.json
     """
     try:
         response = minio_client.get_object(RAW_BUCKET, path)
         content = response.read()
-        
-        # Se for JSON, retorna como dict
+
         if path.endswith(".json"):
             return json.loads(content)
         else:
@@ -171,23 +214,23 @@ def estatisticas_minio():
     """
     try:
         objetos = list(minio_client.list_objects(RAW_BUCKET, recursive=True))
-        
+
         total_size = sum(obj.size for obj in objetos)
         devices = {}
-        
+
         for obj in objetos:
             # Extrair device do path (inmet/<device>/...)
             parts = obj.object_name.split("/")
             if len(parts) >= 2 and parts[0] == "inmet":
                 device = parts[1]
                 devices[device] = devices.get(device, 0) + 1
-        
+
         return {
             "bucket": RAW_BUCKET,
             "total_arquivos": len(objetos),
             "total_size_bytes": total_size,
             "total_size_mb": round(total_size / (1024 * 1024), 2),
-            "devices": devices
+            "devices": devices,
         }
     except S3Error as e:
         raise HTTPException(status_code=500, detail=f"Erro ao obter estatísticas: {e}")
