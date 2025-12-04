@@ -18,8 +18,9 @@ DEVICES = {
     "INMET_Garanhuns": "C4dThEy9BtBgco99L3WL",
 }
 
-# Caminho base para os CSVs tratados
+# Caminho base para os CSVs
 BASE_PROCESSED = Path("./data/processed")
+
 
 
 def enviar_telemetria(token: str, payload: dict) -> bool:
@@ -97,13 +98,18 @@ def main():
     print("=" * 60)
 
     if not BASE_PROCESSED.exists():
-        print(f"❌ Pasta não encontrada: {BASE_PROCESSED}")
-        return
+         print(f"❌ Pasta não encontrada: {BASE_PROCESSED}")
+         return
+
 
     # Listar todos os CSVs tratados
     csvs = sorted(BASE_PROCESSED.glob("*_tratado.csv"))
-
+    
+    # Listar todos os CSVs RAW
+    csvs = sorted(BASE_PROCESSED.glob("*.csv"))
+    
     if not csvs:
+        # print(f"❌ Nenhum CSV encontrado em {BASE_PROCESSED}")
         print(f"❌ Nenhum CSV encontrado em {BASE_PROCESSED}")
         return
 
