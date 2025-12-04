@@ -47,8 +47,6 @@ Aplicar técnicas de **Agrupamento (Clustering) K-Means** para identificar **Pad
 - **Frequência:** Dados horários
 - **Variáveis:** Temperatura, Umidade, Radiação, Vento, Precipitação, Pressão
 
----
-
 ## 2. Membros do Projeto
 
 | Nome | Usuário |
@@ -62,8 +60,6 @@ Aplicar técnicas de **Agrupamento (Clustering) K-Means** para identificar **Pad
 
 * **Disciplina:** Análise e Visualização de Dados - 2025.2  
 * **Instituição:** CESAR School
-
----
 
 ## 3. Arquitetura do Pipeline
 
@@ -105,7 +101,6 @@ graph TD
 
 5. **Visualização:** O ThingsBoard consome os resultados do agrupamento para gerar dashboards interativos.
 
----
 
 ## 4. Estrutura do Repositório
 
@@ -121,35 +116,35 @@ AVD-projeto-1/
 │   └── processed/               # Dados tratados (CSV)
 │       ├── petrolina_*_tratado.csv
 │       ├── garanhuns_*_tratado.csv
-│       ├── dados_semanais_clustered.csv
-│       ├── modelos_backup/      # Modelos ML salvos
-│       ├── modelos_viticultura/ # Modelos específicos
-│       └── temp_models/         # Modelos temporários
 ├── notebooks/
 │   ├── 01_carregar_dados.ipynb          # Notebook exploratório
 │   ├── 01_tratamento_dados_inmet.ipynb  # Processamento completo
-│   └── 02_Modelagem.ipynb         # Modelagem e clustering
+│   ├── 02_Modelagem.ipynb               # Modelagem e clustering
+│   ├── classification_report.json
+│   ├── classification_report.txt
+│   ├── decision_tree_classifier.pkl
+│   ├── random_forest_regressor.pkl
 ├── fastapi/
-│   ├── main.py                  # API de ingestão
-│   ├── requirements.txt         # Dependências FastAPI
-│   └── Dockerfile               # Imagem Docker FastAPI
+│   ├── __init__.py
+│   ├── main.py                   # API de ingestão
+│   ├── requirements.txt          # Dependências FastAPI
+│   └── Dockerfile                # Imagem Docker FastAPI
 ├── scripts/
-│   ├── etl_minio_to_postgres.py    # ETL MinIO → PostgreSQL
-│   ├── send_inmet_to_tb.py          # Envio de dados para ThingsBoard
-│   ├── test_pipeline.py             # Testes do pipeline
+│   ├── etl_minio_to_postgres.py  # ETL MinIO → PostgreSQL
+│   ├── send_inmet_to_tb.py       # Envio de dados para ThingsBoard
+│   ├── test_pipeline.py          # Testes do pipeline
 ├── mlflow/
 │   └── artifacts/                # Artefatos dos modelos
 ├── minio/
 │   └── data/                     # Dados armazenados no MinIO
 ├── thingsboard/
-│   ├── data/                     # Banco de dados do ThingsBoard
-│   └── logs/                     # Logs do ThingsBoard
+│   ├── dashboards/               # Dashboards do ThingsBoard
+│   └── projetoavd.json
+├── .gitignore
 ├── docker-compose.yml            # Orquestração dos serviços
 ├── Dockerfile.jupyter            # Dockerfile do Jupyter
 └── README.md                     # Este arquivo
 ```
-
----
 
 ## 5. Tecnologias Utilizadas
 
@@ -189,8 +184,6 @@ AVD-projeto-1/
 - **Requests** - Cliente HTTP para Python
 - **psycopg2-binary** - Adaptador PostgreSQL para Python
 - **python-multipart** - Suporte para upload de arquivos
-
----
 
 ## 6. Requisitos e Dependências
 
@@ -241,7 +234,6 @@ psycopg2-binary
 sqlalchemy
 requests
 ```
-```
 
 ### 📦 Dependências dos Scripts
 
@@ -255,15 +247,10 @@ psycopg2-binary
 
 # Comunicação
 requests
-```
-
----
 
 ## 7. Instalação e Configuração
 
 ### 7.1. Pré-requisitos
-
-#### Linux / macOS
 
 ```bash
 # Verificar versão do Docker
@@ -279,17 +266,8 @@ sudo apt-get install docker.io docker-compose
 
 # macOS (via Homebrew):
 brew install docker docker-compose
-```
 
-#### Windows
-
-```powershell
-# Verificar versão do Docker
-docker --version
-
-# Verificar versão do Docker Compose
-docker-compose --version
-
+# Windows 
 # Instalar Docker Desktop (inclui Docker Compose)
 # Baixar de: https://www.docker.com/products/docker-desktop
 ```
@@ -305,57 +283,24 @@ docker-compose --version
 
 ### 7.3. Clonagem do Repositório
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows:
 
 ```bash
 git clone <git@github.com:aguiarth/AVD-projeto.git>
 cd AVD-projeto
 ```
-
-#### Windows (PowerShell)
-
-```powershell
-git clone <git@github.com:aguiarth/AVD-projeto.git>
-cd AVD-projeto
-```
-
-#### Windows (CMD)
-
-```cmd
-git clone <git@github.com:aguiarth/AVD-projeto.git>
-cd AVD-projeto
-```
-
----
 
 ## 8. Instruções de Execução
 
 ### 8.1. Subir a Infraestrutura
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows (PowerShell / CMD):
 
 ```bash
 # Construir as imagens e iniciar os serviços
 docker-compose up -d --build
 
 # Verificar se todos os serviços estão rodando
-docker-compose ps
-```
-
-#### Windows (PowerShell)
-
-```powershell
-# Construir as imagens e iniciar os serviços
-docker-compose up -d --build
-
-# Verificar se todos os serviços estão rodando
-docker-compose ps
-```
-
-#### Windows (CMD)
-
-```cmd
-docker-compose up -d --build
 docker-compose ps
 ```
 
@@ -408,7 +353,7 @@ Você deve ver todos os serviços com status `Up`:
 
 #### Passo 2: Modelagem K-Means
 
-1. **Execute o notebook `02_Modelagem_KMeans.ipynb`:**
+1. **Execute o notebook `02_modelagem.ipynb`:**
    - Carrega os dados estruturados diretamente do PostgreSQL
    - Agrega dados por semana
    - Trata outliers
@@ -445,7 +390,7 @@ Você deve ver todos os serviços com status `Up`:
 
 ### 8.5. Executar Scripts Auxiliares
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows PowerShell (usar barra invertida no CMD):
 
 ```bash
 # Enviar dados limpos para ThingsBoard
@@ -457,29 +402,6 @@ python scripts/etl_minio_to_postgres.py
 # Testar pipeline
 python scripts/test_pipeline.py
 ```
-
-#### Windows (PowerShell)
-
-```powershell
-# Enviar dados limpos para ThingsBoard
-python scripts/send_inmet_to_tb.py
-
-# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
-python scripts/etl_minio_to_postgres.py
-
-# Testar pipeline
-python scripts/test_pipeline.py
-```
-
-#### Windows (CMD)
-
-```cmd
-python scripts\send_inmet_to_tb.py
-python scripts\etl_minio_to_postgres.py
-python scripts\test_pipeline.py
-```
-
----
 
 ## 9. Notebooks do Projeto
 
@@ -541,8 +463,6 @@ python scripts\test_pipeline.py
 *Nota: A velocidade do vento é processada nos dados brutos, mas não é utilizada na agregação semanal para o modelo K-Means.*
 
 **Quando usar:** Após o processamento dos dados, para identificar padrões climáticos.
-
----
 
 ## 10. Scripts Auxiliares
 
@@ -615,15 +535,13 @@ python scripts/test_pipeline.py
 python scripts\test_pipeline.py
 ```
 
----
-
 ## 11. Troubleshooting
 
 ### ❌ Problema: Serviços não iniciam
 
 **Solução:**
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows (PowerShell / CMD):
 
 ```bash
 # Verificar logs
@@ -633,22 +551,6 @@ docker-compose logs
 docker-compose restart
 
 # Reconstruir imagens
-docker-compose up -d --build --force-recreate
-```
-
-#### Windows (PowerShell)
-
-```powershell
-docker-compose logs
-docker-compose restart
-docker-compose up -d --build --force-recreate
-```
-
-#### Windows (CMD)
-
-```cmd
-docker-compose logs
-docker-compose restart
 docker-compose up -d --build --force-recreate
 ```
 
@@ -687,15 +589,9 @@ docker-compose down
 - Confirme que o encoding é `latin1`
 - Verifique os logs do Jupyter: `docker-compose logs jupyterlab`
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows:
 
 ```bash
-docker-compose logs jupyterlab
-```
-
-#### Windows
-
-```powershell
 docker-compose logs jupyterlab
 ```
 
@@ -714,19 +610,11 @@ docker-compose logs jupyterlab
 - Confirme permissões de escrita no diretório
 - Verifique logs: `docker-compose logs mlflow`
 
-#### Linux / macOS
-
 ```bash
-# Verificar permissões
+# Verificar permissões (Linux / macOS)
 ls -la mlflow/
 
-# Ver logs
-docker-compose logs mlflow
-```
-
-#### Windows
-
-```powershell
+# Ver logs (Linux / macOS / Windows)
 docker-compose logs mlflow
 ```
 
@@ -739,7 +627,7 @@ docker-compose logs mlflow
 
 ### 🛠️ Comandos Úteis
 
-#### Linux / macOS
+Comandos para Linux / macOS / Windows (PowerShell / CMD):
 
 ```bash
 # Parar todos os serviços
@@ -760,41 +648,6 @@ docker system prune -a
 # Ver uso de recursos
 docker stats
 ```
-
-#### Windows (PowerShell)
-
-```powershell
-# Parar todos os serviços
-docker-compose down
-
-# Parar e remover volumes
-docker-compose down -v
-
-# Ver logs de um serviço específico
-docker-compose logs -f jupyterlab
-
-# Executar comando em um container
-docker-compose exec jupyterlab bash
-
-# Limpar recursos não utilizados
-docker system prune -a
-
-# Ver uso de recursos
-docker stats
-```
-
-#### Windows (CMD)
-
-```cmd
-docker-compose down
-docker-compose down -v
-docker-compose logs -f jupyterlab
-docker-compose exec jupyterlab bash
-docker system prune -a
-docker stats
-```
-
----
 
 ## 12. Resultados e Conclusões
 
@@ -820,9 +673,7 @@ docker stats
 
 ### 📄 Relatório Técnico
 
-O relatório final em PDF, contendo a arquitetura, metodologia, resultados e conclusões, será enviado junto da entrega.
-
----
+O relatório final em PDF, contendo a arquitetura, metodologia, resultados e conclusões, será enviado na atividade da entrega.
 
 ## 📚 Referências
 
@@ -835,13 +686,9 @@ O relatório final em PDF, contendo a arquitetura, metodologia, resultados e con
 - [PostgreSQL - Documentação](https://www.postgresql.org/docs/)
 - [MinIO - Documentação](https://min.io/docs/)
 
----
-
 ## 📝 Licença
 
 Este projeto é desenvolvido para fins acadêmicos no contexto da disciplina de Análise e Visualização de Dados da CESAR School.
-
----
 
 ## 🤝 Equipe
 
