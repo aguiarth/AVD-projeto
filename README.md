@@ -1,4 +1,19 @@
-# 🍇 AVD - Pipeline de BI Climático para Viticultura
+# 🌦️ AVD - Pipeline de BI Climático
+
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
+![Docker](https://img.shields.io/badge/Docker-20.10+-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
+![License](https://img.shields.io/badge/License-Academic-lightgrey.svg)
+
+**Pipeline completo de Business Intelligence para análise e visualização de dados meteorológicos do INMET**
+
+[📋 Índice](#-índice) • [🚀 Início Rápido](#-início-rápido) • [📚 Documentação](#-documentação) • [🤝 Equipe](#-equipe)
+
+</div>
+
+---
 
 ## 📋 Índice
 
@@ -7,42 +22,48 @@
 3. [Arquitetura do Pipeline](#3-arquitetura-do-pipeline)
 4. [Estrutura do Repositório](#4-estrutura-do-repositório)
 5. [Tecnologias Utilizadas](#5-tecnologias-utilizadas)
-6. [Instruções de Execução](#6-instruções-de-execução)
-7. [Notebooks do Projeto](#7-notebooks-do-projeto)
-8. [Scripts Auxiliares](#8-scripts-auxiliares)
-9. [Troubleshooting](#9-troubleshooting)
-10. [Resultados e Conclusões](#10-resultados-e-conclusões)
+6. [Requisitos e Dependências](#6-requisitos-e-dependências)
+7. [Instalação e Configuração](#7-instalação-e-configuração)
+8. [Instruções de Execução](#8-instruções-de-execução)
+9. [Notebooks do Projeto](#9-notebooks-do-projeto)
+10. [Scripts Auxiliares](#10-scripts-auxiliares)
+11. [Troubleshooting](#11-troubleshooting)
+12. [Resultados e Conclusões](#12-resultados-e-conclusões)
 
 ---
 
 ## 1. Introdução e Objetivo
 
-Este projeto implementa um pipeline de Business Intelligence (BI) para análise e visualização de dados meteorológicos do **INMET (Instituto Nacional de Meteorologia)**, focando no estado de **Pernambuco**, com ênfase no **Vale do São Francisco**.
+Este projeto implementa um **pipeline completo de Business Intelligence (BI)** para análise e visualização de dados meteorológicos do **INMET (Instituto Nacional de Meteorologia)**, focando no estado de **Pernambuco**, com ênfase nas estações de **Petrolina** e **Garanhuns**.
 
-### Objetivo Central
+### 🎯 Objetivo Central
 
-Aplicar técnicas de **Agrupamento (Clustering) K-Means** para identificar **Padrões Climáticos Chave** durante fases críticas da videira, como a floração e a maturação, utilizando dados agregados de temperatura, umidade, radiação solar, vento, precipitação e pressão atmosférica. O resultado deste agrupamento é visualizado em dashboards interativos no **ThingsBoard**.
+Aplicar técnicas de **Agrupamento (Clustering) K-Means** para identificar **Padrões Climáticos Chave** utilizando dados agregados de temperatura, umidade, radiação solar, precipitação e pressão atmosférica. O resultado deste agrupamento é visualizado em dashboards interativos no **ThingsBoard**.
 
-### Dados Processados
+### 📊 Dados Processados
 
 - **Período:** 2020 a 2024
 - **Estações:** Petrolina (A307) e Garanhuns (A322)
 - **Frequência:** Dados horários
 - **Variáveis:** Temperatura, Umidade, Radiação, Vento, Precipitação, Pressão
 
+---
+
 ## 2. Membros do Projeto
 
 | Nome | Usuário |
 | :--- | :--- |
-| Lisa Matubara | `lm` |
-| Luziane Santos | `lps` |
-| Maria Júlia Peixoto | `mjpo` |
-| Matheus Velame | `mvp2` |
-| Paulo Rago | `prcr` |
-| Thaís Aguiar | `thcba` |
+| Lisa Matubara | `lilymtbr` |
+| Luziane Santos | `luzianes` |
+| Maria Júlia Peixoto | `majupeixoto` |
+| Matheus Velame | `MatheusVelame` |
+| Paulo Rago | `paulo_rago` |
+| Thaís Aguiar | `aguiarth` |
 
-* **Disciplina:** Análise e Visualização de Dados - 2025.2
+* **Disciplina:** Análise e Visualização de Dados - 2025.2  
 * **Instituição:** CESAR School
+
+---
 
 ## 3. Arquitetura do Pipeline
 
@@ -52,34 +73,44 @@ A solução é baseada em contêineres **Docker** e orquestrada via **Docker Com
 | :--- | :--- | :--- | :--- |
 | **JupyterLab** | Ambiente de análise, tratamento de dados e modelagem | `8888` | `http://localhost:8888` |
 | **FastAPI** | Interface de ingestão dos dados brutos do INMET e integração com MinIO/S3 | `8000` | `http://localhost:8000` |
-| **MinIO/S3** | Armazenamento de dados brutos e modelos | `9000` (API)<br>`9001` (Console) | `http://localhost:9001` |
-| **Snowflake** | Estruturação de dados tratados (banco de dados cloud) | - | Configurado externamente |
+| **MinIO/S3** | Data Lake - Armazenamento de dados brutos e modelos | `9000` (API)<br>`9001` (Console) | `http://localhost:9001` |
+| **PostgreSQL** | Data Warehouse - Banco de dados relacional para armazenamento estruturado | `5432` | `http://localhost:8085` (Adminer) |
+| **Adminer** | Interface web para gerenciamento do PostgreSQL | `8085` | `http://localhost:8085` |
 | **MLFlow** | Registro e versionamento do modelo de K-Means e artefatos | `5000` | `http://localhost:5000` |
 | **ThingsBoard** | Plataforma IoT para visualização de dados e dashboards | `8090` | `http://localhost:8090` |
 
-### Fluxo Geral do Pipeline
+### 🔄 Fluxo Detalhado do Pipeline
 
 ```mermaid
-graph LR
-    A[INMET CSV] --> B[FastAPI]
-    B --> C[MinIO/S3]
-    C --> D[Jupyter Notebook]
-    D --> E[Snowflake]
-    D --> F[MLFlow]
-    E --> G[ThingsBoard]
-    F --> G
+graph TD
+    A[Dados Limpos] --> B[send_inmet_to_tb.py]
+    B --> C[ThingsBoard]
+    C -->|Regra de Negócio| D[MinIO/S3]
+    D -->|ETL| E[PostgreSQL]
+    E -->|Extração| F[Jupyter Notebook]
+    F -->|K-Means| G[MLFlow]
+    F --> H[Modelos e Resultados]
+    H --> C
 ```
 
-1. **Ingestão:** Os dados brutos do INMET são ingeridos via FastAPI e salvos no MinIO/S3.
-2. **Tratamento:** O Jupyter Notebook processa os dados brutos, aplica limpeza e interpolação temporal.
-3. **Estruturação:** Os dados tratados são carregados no Snowflake para armazenamento estruturado.
-4. **Modelagem:** O notebook aplica K-Means para identificar padrões climáticos e registra o modelo no MLFlow.
+#### Fluxo de Dados Detalhado
+
+1. **Ingestão:** Os dados limpos são enviados ao ThingsBoard via script Python (`scripts/send_inmet_to_tb.py`).
+
+2. **ThingsBoard → MinIO:** O ThingsBoard aplica uma **Regra de Negócio** para persistir os dados brutos no MinIO/S3 (Data Lake).
+
+3. **MinIO → PostgreSQL:** A transferência do data lake (MinIO) para o data warehouse (PostgreSQL) é realizada através de um script de ETL dedicado (`scripts/etl_minio_to_postgres.py`).
+
+4. **Modelagem:** O Jupyter Notebook extrai os dados estruturados diretamente do PostgreSQL para o Machine Learning (K-Means), que é rastreado pelo MLFlow.
+
 5. **Visualização:** O ThingsBoard consome os resultados do agrupamento para gerar dashboards interativos.
+
+---
 
 ## 4. Estrutura do Repositório
 
 ```
-AVD-projeto/
+AVD-projeto-1/
 ├── data/
 │   ├── raw/                    # Dados brutos do INMET (CSV)
 │   │   ├── 2020/
@@ -89,19 +120,23 @@ AVD-projeto/
 │   │   └── 2024/
 │   └── processed/               # Dados tratados (CSV)
 │       ├── petrolina_*_tratado.csv
-│       └── garanhuns_*_tratado.csv
+│       ├── garanhuns_*_tratado.csv
+│       ├── dados_semanais_clustered.csv
+│       ├── modelos_backup/      # Modelos ML salvos
+│       ├── modelos_viticultura/ # Modelos específicos
+│       └── temp_models/         # Modelos temporários
 ├── notebooks/
 │   ├── 01_carregar_dados.ipynb          # Notebook exploratório
-│   ├── 01_tratamento_dados_inmet.ipynb  # Processamento completo e carga no Snowflake
-│   └── 02_Modelagem_KMeans.ipynb         # Modelagem e clustering
+│   ├── 01_tratamento_dados_inmet.ipynb  # Processamento completo
+│   └── 02_Modelagem.ipynb         # Modelagem e clustering
 ├── fastapi/
 │   ├── main.py                  # API de ingestão
-│   ├── requirements.txt
-│   └── Dockerfile
+│   ├── requirements.txt         # Dependências FastAPI
+│   └── Dockerfile               # Imagem Docker FastAPI
 ├── scripts/
-│   ├── etl_minio_to_snowflake.py    # ETL MinIO → Snowflake
-│   ├── send_inmet_to_tb.py           # Envio de dados para ThingsBoard
-│   └── test_pipeline.py              # Testes do pipeline
+│   ├── etl_minio_to_postgres.py    # ETL MinIO → PostgreSQL
+│   ├── send_inmet_to_tb.py          # Envio de dados para ThingsBoard
+│   ├── test_pipeline.py             # Testes do pipeline
 ├── mlflow/
 │   └── artifacts/                # Artefatos dos modelos
 ├── minio/
@@ -114,79 +149,241 @@ AVD-projeto/
 └── README.md                     # Este arquivo
 ```
 
+---
+
 ## 5. Tecnologias Utilizadas
 
-### Backend e Infraestrutura
-- **Docker & Docker Compose** - Containerização e orquestração
-- **FastAPI** - API REST para ingestão de dados
-- **MinIO** - Armazenamento de objetos compatível com S3
-- **Snowflake** - Data warehouse cloud
-- **PostgreSQL** - Banco de dados do ThingsBoard
+### 🐳 Infraestrutura e Containerização
+- **Docker** (20.10+) - Containerização de aplicações
+- **Docker Compose** (2.0+) - Orquestração de serviços
 
-### Análise de Dados e Machine Learning
-- **Python 3.11** - Linguagem principal
+### 🔧 Backend e APIs
+- **FastAPI** (0.100+) - Framework web moderno para APIs REST
+- **Uvicorn** - Servidor ASGI de alta performance
+- **Python 3.11** - Linguagem de programação principal
+
+### 💾 Armazenamento de Dados
+- **MinIO** - Data Lake - Armazenamento de objetos compatível com S3
+- **PostgreSQL 15** - Data Warehouse - Banco de dados relacional
+- **SQLAlchemy** - ORM para Python
+
+### 📊 Análise de Dados e Machine Learning
 - **Pandas** - Manipulação e análise de dados
 - **NumPy** - Computação numérica
-- **Scikit-learn** - Machine Learning (K-Means)
+- **Scikit-learn** - Machine Learning (K-Means, StandardScaler)
 - **JupyterLab** - Ambiente de desenvolvimento interativo
 
-### MLOps e Versionamento
-- **MLFlow** - Gerenciamento do ciclo de vida de modelos
+### 📈 Visualização
+- **Matplotlib** - Visualizações estáticas
+- **Seaborn** - Visualizações estatísticas avançadas
+
+### 🔄 MLOps e Versionamento
+- **MLFlow** (v2.7.1) - Gerenciamento do ciclo de vida de modelos
 - **Git** - Controle de versão
 
-### Visualização e IoT
-- **ThingsBoard** - Plataforma IoT para visualização
-- **Matplotlib** - Visualizações estáticas
-- **Seaborn** - Visualizações estatísticas (opcional)
+### 🌐 IoT e Visualização
+- **ThingsBoard** - Plataforma IoT para visualização e dashboards
+- **Adminer** - Interface web para PostgreSQL
 
-## 6. Instruções de Execução
+### 📡 Integração e Comunicação
+- **Requests** - Cliente HTTP para Python
+- **psycopg2-binary** - Adaptador PostgreSQL para Python
+- **python-multipart** - Suporte para upload de arquivos
 
-### 6.1. Pré-requisitos
+---
+
+## 6. Requisitos e Dependências
+
+### 📦 Dependências do FastAPI
+
+Arquivo: `fastapi/requirements.txt`
+
+```
+fastapi
+uvicorn[standard]
+pandas
+python-multipart
+minio
+requests
+psycopg2-binary
+sqlalchemy
+```
+
+### 📦 Dependências do JupyterLab
+
+Instaladas via `Dockerfile.jupyter`:
+
+```
+minio
+psycopg2-binary
+sqlalchemy
+```
+
+### 📦 Dependências dos Notebooks
+
+Bibliotecas Python utilizadas nos notebooks:
+
+```python
+# Análise de Dados
+pandas
+numpy
+
+# Machine Learning
+scikit-learn
+
+# Visualização
+matplotlib
+seaborn
+
+# Integração
+minio
+psycopg2-binary
+sqlalchemy
+requests
+```
+```
+
+### 📦 Dependências dos Scripts
+
+```python
+# ETL e Processamento
+pandas
+minio
+sqlalchemy
+psycopg2-binary
+```
+
+# Comunicação
+requests
+```
+
+---
+
+## 7. Instalação e Configuração
+
+### 7.1. Pré-requisitos
+
+#### Linux / macOS
+
+```bash
+# Verificar versão do Docker
+docker --version
+
+# Verificar versão do Docker Compose
+docker-compose --version
+
+# Instalar Docker (se necessário)
+# Ubuntu/Debian:
+sudo apt-get update
+sudo apt-get install docker.io docker-compose
+
+# macOS (via Homebrew):
+brew install docker docker-compose
+```
+
+#### Windows
+
+```powershell
+# Verificar versão do Docker
+docker --version
+
+# Verificar versão do Docker Compose
+docker-compose --version
+
+# Instalar Docker Desktop (inclui Docker Compose)
+# Baixar de: https://www.docker.com/products/docker-desktop
+```
+
+### 7.2. Requisitos do Sistema
 
 - **Docker** (versão 20.10 ou superior)
 - **Docker Compose** (versão 2.0 ou superior)
 - **Git** (para clonar o repositório)
-- **Conexão estável com a internet** (para download de imagens Docker)
 - **8GB de RAM** (recomendado)
 - **10GB de espaço em disco** (para dados e imagens)
+- **Conexão estável com a internet** (para download de imagens Docker)
 
-### 6.2. Clonagem do Repositório
+### 7.3. Clonagem do Repositório
+
+#### Linux / macOS
 
 ```bash
 git clone <git@github.com:aguiarth/AVD-projeto.git>
 cd AVD-projeto
 ```
 
-### 6.3. Subir a Infraestrutura
+#### Windows (PowerShell)
 
-1. **Construir as imagens e iniciar os serviços:**
-
-```bash
-docker-compose up -d --build
+```powershell
+git clone <git@github.com:aguiarth/AVD-projeto.git>
+cd AVD-projeto
 ```
 
-2. **Verificar se todos os serviços estão rodando:**
+#### Windows (CMD)
+
+```cmd
+git clone <git@github.com:aguiarth/AVD-projeto.git>
+cd AVD-projeto
+```
+
+---
+
+## 8. Instruções de Execução
+
+### 8.1. Subir a Infraestrutura
+
+#### Linux / macOS
 
 ```bash
+# Construir as imagens e iniciar os serviços
+docker-compose up -d --build
+
+# Verificar se todos os serviços estão rodando
 docker-compose ps
 ```
 
+#### Windows (PowerShell)
+
+```powershell
+# Construir as imagens e iniciar os serviços
+docker-compose up -d --build
+
+# Verificar se todos os serviços estão rodando
+docker-compose ps
+```
+
+#### Windows (CMD)
+
+```cmd
+docker-compose up -d --build
+docker-compose ps
+```
+
+### 8.2. Verificar Status dos Serviços
+
 Você deve ver todos os serviços com status `Up`:
-- `jupyter-uva`
-- `thingsboard`
-- `fastapi-clima`
-- `minio`
-- `mlflow_server`
 
-3. **Acessar os serviços:**
+- `jupyter-uva` (JupyterLab)
+- `thingsboard` (ThingsBoard)
+- `fastapi-clima` (FastAPI)
+- `minio` (MinIO)
+- `mlflow_server` (MLFlow)
+- `postgres-avd` (PostgreSQL)
+- `adminer-avd` (Adminer)
 
-- **JupyterLab:** `http://localhost:8888` (sem token)
-- **FastAPI:** `http://localhost:8000`
-- **MinIO Console:** `http://localhost:9001` (usuário: `admin`, senha: `admin12345`)
-- **MLFlow:** `http://localhost:5000`
-- **ThingsBoard:** `http://localhost:8090` (usuário: `tenant@thingsboard.org`, senha: `tenant`)
+### 8.3. Acessar os Serviços
 
-### 6.4. Execução do Pipeline
+| Serviço | URL | Credenciais |
+| :--- | :--- | :--- |
+| **JupyterLab** | `http://localhost:8888` | Sem token |
+| **FastAPI** | `http://localhost:8000` | - |
+| **FastAPI Docs** | `http://localhost:8000/docs` | - |
+| **MinIO Console** | `http://localhost:9001` | `admin` / `admin12345` |
+| **MLFlow** | `http://localhost:5000` | - |
+| **ThingsBoard** | `http://localhost:8090` | `tenant@thingsboard.org` / `tenant` |
+| **Adminer** | `http://localhost:8085` | Sistema: `PostgreSQL`<br>Servidor: `postgres`<br>Usuário: `postgres`<br>Senha: `postgres`<br>Base de dados: `clima` |
+
+### 8.4. Execução do Pipeline
 
 #### Passo 1: Processamento dos Dados
 
@@ -196,7 +393,6 @@ Você deve ver todos os serviços com status `Up`:
    - Este notebook processa todos os arquivos CSV do INMET (2020-2024)
    - Aplica limpeza, interpolação temporal e tratamento de valores faltantes
    - Salva os dados tratados em `/data/processed/`
-   - **Carrega os dados diretamente no Snowflake**
 
    **Variáveis processadas:**
    - Temperatura do ar (°C)
@@ -213,13 +409,22 @@ Você deve ver todos os serviços com status `Up`:
 #### Passo 2: Modelagem K-Means
 
 1. **Execute o notebook `02_Modelagem_KMeans.ipynb`:**
-   - Carrega os dados tratados (de `/data/processed/` ou Snowflake)
+   - Carrega os dados estruturados diretamente do PostgreSQL
    - Agrega dados por semana
    - Trata outliers
    - Aplica normalização (StandardScaler)
    - Treina o modelo K-Means
    - Avalia o modelo (silhouette score)
    - Registra o modelo no MLFlow
+
+   **Variáveis utilizadas na agregação semanal:**
+   - Temperatura (média e desvio padrão)
+   - Umidade (média e mínima)
+   - Radiação (soma)
+   - Precipitação (soma)
+   - Pressão (média)
+   
+   *Nota: A velocidade do vento é processada nos dados brutos, mas não é utilizada na agregação semanal para o modelo K-Means.*
 
 2. **Visualizar o modelo no MLFlow:**
    - Acesse `http://localhost:5000`
@@ -233,12 +438,52 @@ Você deve ver todos os serviços com status `Up`:
 
 2. **Configure dispositivos e dashboards:**
    - Crie dispositivos para cada estação (Petrolina, Garanhuns)
-   - Use o script `scripts/send_inmet_to_tb.py` para enviar dados
+   - Configure uma **Regra de Negócio** no ThingsBoard para persistir dados no MinIO
+   - Use o script `scripts/send_inmet_to_tb.py` para enviar dados limpos ao ThingsBoard
+   - Execute o script `scripts/etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
    - Crie dashboards para visualizar os clusters identificados
 
-## 7. Notebooks do Projeto
+### 8.5. Executar Scripts Auxiliares
 
-### `01_carregar_dados.ipynb`
+#### Linux / macOS
+
+```bash
+# Enviar dados limpos para ThingsBoard
+python scripts/send_inmet_to_tb.py
+
+# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
+python scripts/etl_minio_to_postgres.py
+
+# Testar pipeline
+python scripts/test_pipeline.py
+```
+
+#### Windows (PowerShell)
+
+```powershell
+# Enviar dados limpos para ThingsBoard
+python scripts/send_inmet_to_tb.py
+
+# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
+python scripts/etl_minio_to_postgres.py
+
+# Testar pipeline
+python scripts/test_pipeline.py
+```
+
+#### Windows (CMD)
+
+```cmd
+python scripts\send_inmet_to_tb.py
+python scripts\etl_minio_to_postgres.py
+python scripts\test_pipeline.py
+```
+
+---
+
+## 9. Notebooks do Projeto
+
+### 📓 `01_carregar_dados.ipynb`
 
 **Propósito:** Notebook exploratório para visualização e análise rápida de dados.
 
@@ -251,9 +496,9 @@ Você deve ver todos os serviços com status `Up`:
 
 **Quando usar:** Para exploração inicial dos dados ou análise de um arquivo específico.
 
-### `01_tratamento_dados_inmet.ipynb`
+### 📓 `01_tratamento_dados_inmet.ipynb`
 
-**Propósito:** Processamento completo de todos os arquivos do INMET e carga no Snowflake.
+**Propósito:** Processamento completo de todos os arquivos do INMET.
 
 **Funcionalidades:**
 - Processa todos os arquivos CSV (2020-2024, Petrolina e Garanhuns)
@@ -261,8 +506,7 @@ Você deve ver todos os serviços com status `Up`:
 - Interpola valores faltantes usando método temporal
 - Remove colunas 100% vazias (ex: radiação quando ausente)
 - Cria features auxiliares (hora_num, mes)
-- Salva dados tratados em CSV
-- **Carrega dados no Snowflake**
+- Salva dados tratados em CSV em `/data/processed/`
 
 **Tratamento aplicado:**
 - Conversão de vírgula para ponto decimal
@@ -273,12 +517,12 @@ Você deve ver todos os serviços com status `Up`:
 
 **Quando usar:** Para processar todos os dados e preparar para modelagem.
 
-### `02_Modelagem_KMeans.ipynb`
+### 📓 `02_Modelagem_KMeans.ipynb`
 
 **Propósito:** Modelagem de clustering para identificar padrões climáticos.
 
 **Funcionalidades:**
-- Carrega dados tratados
+- Extrai dados estruturados diretamente do PostgreSQL
 - Agregação semanal dos dados horários
 - Tratamento de outliers
 - Normalização com StandardScaler
@@ -287,42 +531,100 @@ Você deve ver todos os serviços com status `Up`:
 - Visualização dos clusters
 - Registro no MLFlow
 
+**Variáveis utilizadas na agregação semanal:**
+- Temperatura (média e desvio padrão)
+- Umidade (média e mínima)
+- Radiação (soma)
+- Precipitação (soma)
+- Pressão (média)
+
+*Nota: A velocidade do vento é processada nos dados brutos, mas não é utilizada na agregação semanal para o modelo K-Means.*
+
 **Quando usar:** Após o processamento dos dados, para identificar padrões climáticos.
 
-## 8. Scripts Auxiliares
+---
 
-### `scripts/etl_minio_to_snowflake.py`
+## 10. Scripts Auxiliares
 
-Script para extrair dados do MinIO e carregar no Snowflake.
+### 🔧 `scripts/etl_minio_to_postgres.py`
+
+Script de ETL para transferir dados do Data Lake (MinIO) para o Data Warehouse (PostgreSQL). Este script deve ser executado após o ThingsBoard persistir os dados no MinIO através de sua Regra de Negócio.
 
 **Uso:**
+
 ```bash
-python scripts/etl_minio_to_snowflake.py
+# Linux / macOS
+python scripts/etl_minio_to_postgres.py
+
+# Windows
+python scripts\etl_minio_to_postgres.py
 ```
 
-### `scripts/send_inmet_to_tb.py`
+**Funcionalidades:**
+- Conecta ao MinIO e lista arquivos CSV
+- Carrega dados do MinIO (dados brutos persistidos pelo ThingsBoard)
+- Cria tabela `inmet_raw` no PostgreSQL (se não existir)
+- Insere dados na tabela `inmet_raw` do PostgreSQL
+- Organiza dados por dispositivo (Petrolina/Garanhuns)
 
-Script para enviar dados processados para o ThingsBoard.
+**Fluxo:**
+1. Execute `send_inmet_to_tb.py` para enviar dados ao ThingsBoard
+2. O ThingsBoard persiste dados brutos no MinIO via Regra de Negócio
+3. Execute este script para transferir dados do MinIO para PostgreSQL
+4. O Jupyter Notebook extrai dados do PostgreSQL para modelagem
+
+### 🔧 `scripts/send_inmet_to_tb.py`
+
+Script para enviar dados limpos processados para o ThingsBoard. Este é o primeiro passo do pipeline de dados.
 
 **Uso:**
+
 ```bash
+# Linux / macOS
 python scripts/send_inmet_to_tb.py
+
+# Windows
+python scripts\send_inmet_to_tb.py
 ```
 
-### `scripts/test_pipeline.py`
+**Funcionalidades:**
+- Lê CSVs tratados de `data/processed/`
+- Envia telemetria linha por linha para o ThingsBoard
+- Suporta múltiplos dispositivos (Petrolina, Garanhuns)
+- Inclui delay para não sobrecarregar o ThingsBoard
+
+**Configuração necessária:**
+- Editar tokens dos dispositivos no dicionário `DEVICES`
+
+**Fluxo:**
+1. Este script envia dados limpos para o ThingsBoard
+2. O ThingsBoard aplica uma Regra de Negócio para persistir dados brutos no MinIO
+3. Execute `etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
+
+### 🔧 `scripts/test_pipeline.py`
 
 Script de testes para validar o pipeline completo.
 
 **Uso:**
+
 ```bash
+# Linux / macOS
 python scripts/test_pipeline.py
+
+# Windows
+python scripts\test_pipeline.py
 ```
 
-## 9. Troubleshooting
+---
 
-### Problema: Serviços não iniciam
+## 11. Troubleshooting
+
+### ❌ Problema: Serviços não iniciam
 
 **Solução:**
+
+#### Linux / macOS
+
 ```bash
 # Verificar logs
 docker-compose logs
@@ -334,35 +636,110 @@ docker-compose restart
 docker-compose up -d --build --force-recreate
 ```
 
-### Problema: Porta já em uso
+#### Windows (PowerShell)
+
+```powershell
+docker-compose logs
+docker-compose restart
+docker-compose up -d --build --force-recreate
+```
+
+#### Windows (CMD)
+
+```cmd
+docker-compose logs
+docker-compose restart
+docker-compose up -d --build --force-recreate
+```
+
+### ❌ Problema: Porta já em uso
 
 **Solução:**
 - Verifique se outra aplicação está usando a porta
 - Altere a porta no `docker-compose.yml` se necessário
 - Use `docker-compose down` antes de subir novamente
 
-### Problema: Erro ao processar dados
+#### Linux / macOS
+
+```bash
+# Verificar processos usando a porta
+sudo lsof -i :8888  # Para porta 8888
+sudo netstat -tulpn | grep :8888
+
+# Parar serviços
+docker-compose down
+```
+
+#### Windows (PowerShell)
+
+```powershell
+# Verificar processos usando a porta
+netstat -ano | findstr :8888
+
+# Parar serviços
+docker-compose down
+```
+
+### ❌ Problema: Erro ao processar dados
 
 **Solução:**
 - Verifique se os arquivos CSV estão em `/data/raw/` com a estrutura correta
 - Confirme que o encoding é `latin1`
 - Verifique os logs do Jupyter: `docker-compose logs jupyterlab`
 
-### Problema: Snowflake não conecta
+#### Linux / macOS
+
+```bash
+docker-compose logs jupyterlab
+```
+
+#### Windows
+
+```powershell
+docker-compose logs jupyterlab
+```
+
+### ❌ Problema: PostgreSQL não conecta
 
 **Solução:**
-- Verifique as credenciais no notebook `01_tratamento_dados_inmet.ipynb`
-- Confirme que o Snowflake está acessível
-- Verifique a configuração de rede/firewall
+- Verifique se o serviço está rodando: `docker-compose ps postgres`
+- Confirme credenciais: `postgres` / `postgres`
+- Acesse via Adminer: `http://localhost:8085`
+- Verifique a conexão no notebook: `postgresql://postgres:postgres@postgres:5432/clima`
 
-### Problema: MLFlow não salva modelos
+### ❌ Problema: MLFlow não salva modelos
 
 **Solução:**
 - Verifique se o volume `./mlflow` está montado corretamente
 - Confirme permissões de escrita no diretório
 - Verifique logs: `docker-compose logs mlflow`
 
-### Comandos Úteis
+#### Linux / macOS
+
+```bash
+# Verificar permissões
+ls -la mlflow/
+
+# Ver logs
+docker-compose logs mlflow
+```
+
+#### Windows
+
+```powershell
+docker-compose logs mlflow
+```
+
+### ❌ Problema: PostgreSQL não conecta
+
+**Solução:**
+- Verifique se o serviço está rodando: `docker-compose ps postgres`
+- Confirme credenciais: `postgres` / `postgres`
+- Acesse via Adminer: `http://localhost:8085`
+
+### 🛠️ Comandos Úteis
+
+#### Linux / macOS
 
 ```bash
 # Parar todos os serviços
@@ -379,46 +756,103 @@ docker-compose exec jupyterlab bash
 
 # Limpar recursos não utilizados
 docker system prune -a
+
+# Ver uso de recursos
+docker stats
 ```
 
-## 10. Resultados e Conclusões
+#### Windows (PowerShell)
 
-### Dados Processados
+```powershell
+# Parar todos os serviços
+docker-compose down
+
+# Parar e remover volumes
+docker-compose down -v
+
+# Ver logs de um serviço específico
+docker-compose logs -f jupyterlab
+
+# Executar comando em um container
+docker-compose exec jupyterlab bash
+
+# Limpar recursos não utilizados
+docker system prune -a
+
+# Ver uso de recursos
+docker stats
+```
+
+#### Windows (CMD)
+
+```cmd
+docker-compose down
+docker-compose down -v
+docker-compose logs -f jupyterlab
+docker-compose exec jupyterlab bash
+docker system prune -a
+docker stats
+```
+
+---
+
+## 12. Resultados e Conclusões
+
+### 📊 Dados Processados
 
 - **Total de registros:** ~87.000 registros horários (por ano)
 - **Período:** 2020-2024
 - **Estações:** 2 (Petrolina e Garanhuns)
 - **Variáveis climáticas:** 6 principais
 
-### Modelo K-Means
+### 🤖 Modelo K-Means
 
 - **Método:** Clustering não-supervisionado
 - **Features:** Agregações semanais de variáveis climáticas
 - **Avaliação:** Silhouette score
 - **Versionamento:** MLFlow
 
-### Visualização
+### 📈 Visualização
 
 - **Plataforma:** ThingsBoard
 - **Dashboards:** Padrões climáticos por cluster
 - **Interatividade:** Filtros por período, estação e variável
 
-### Relatório Técnico
+### 📄 Relatório Técnico
 
 O relatório final em PDF, contendo a arquitetura, metodologia, resultados e conclusões, será enviado junto da entrega.
+
+---
 
 ## 📚 Referências
 
 - [INMET - Instituto Nacional de Meteorologia](https://portal.inmet.gov.br/)
 - [ThingsBoard - Documentação](https://thingsboard.io/docs/)
 - [MLFlow - Documentação](https://www.mlflow.org/docs/latest/index.html)
-- [Snowflake - Documentação](https://docs.snowflake.com/)
 - [Scikit-learn K-Means](https://scikit-learn.org/stable/modules/clustering.html#k-means)
+- [FastAPI - Documentação](https://fastapi.tiangolo.com/)
+- [Docker - Documentação](https://docs.docker.com/)
+- [PostgreSQL - Documentação](https://www.postgresql.org/docs/)
+- [MinIO - Documentação](https://min.io/docs/)
+
+---
 
 ## 📝 Licença
 
 Este projeto é desenvolvido para fins acadêmicos no contexto da disciplina de Análise e Visualização de Dados da CESAR School.
 
+---
+
 ## 🤝 Equipe
 
-Este é um projeto acadêmico desenvolvido pela equipe [Cobalto](#2-membros-do-projeto).
+Este é um projeto acadêmico desenvolvido pela equipe **Cobalto** ([ver membros](#2-membros-do-projeto)).
+
+---
+
+<div align="center">
+
+**Desenvolvido com ❤️ pela equipe Cobalto**
+
+[⬆ Voltar ao topo](#-avd---pipeline-de-bi-climático)
+
+</div>

@@ -23,6 +23,7 @@ services:
     volumes:
       - ./thingsboard/data:/data
       - ./thingsboard/logs:/var/log/thingsboard
+      - ./thingsboard/dashboards:/tmp/dashboards
 
   fastapi:
     build: ./fastapi
