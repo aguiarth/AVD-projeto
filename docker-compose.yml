@@ -33,6 +33,7 @@ services:
       - "8000:8000"
     volumes:
       - ./data:/app/data        # para enxergar CSVs tratados
+      - ./fastapi:/app           # montar código para hot-reload
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
   
   minio:

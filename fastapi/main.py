@@ -1,9 +1,13 @@
-from fastapi import FastAPI, HTTPException, Request, UploadFile, File
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from datetime import datetime
 from pathlib import Path
 import io
 import json
+import pandas as pd
+import pickle
+from typing import Optional, List
 
 from minio import Minio
 from minio.error import S3Error
@@ -45,6 +49,12 @@ minio_client = Minio(
 # Garante que o bucket existe
 if not minio_client.bucket_exists(RAW_BUCKET):
     minio_client.make_bucket(RAW_BUCKET)
+
+# ============================
+# CONFIGURAÇÃO DE DADOS PROCESSADOS
+# ============================
+# Caminho para dados processados (compartilhado via volume)
+DATA_PROCESSED_PATH = Path("/app/data/processed")
 
 
 # ============================
@@ -275,3 +285,254 @@ async def upload_csv_manual(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Erro ao salvar no MinIO: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro inesperado: {e}")
+
+
+# ============================
+# ENDPOINTS DE DADOS PROCESSADOS
+# ============================
+
+@app.get("/api/dados-processados")
+def listar_dados_processados():
+    """
+    Lista todos os arquivos de dados processados disponíveis.
+    """
+    try:
+        arquivos = list(DATA_PROCESSED_PATH.glob("*.csv"))
+        arquivos_info = []
+        
+        for arquivo in sorted(arquivos):
+            try:
+                # Ler apenas metadados do CSV
+                df = pd.read_csv(arquivo, nrows=0)
+                arquivos_info.append({
+                    "nome": arquivo.name,
+                    "caminho": str(arquivo),
+                    "colunas": list(df.columns),
+                    "tamanho_bytes": arquivo.stat().st_size,
+                })
+            except Exception:
+                arquivos_info.append({
+                    "nome": arquivo.name,
+                    "caminho": str(arquivo),
+                    "colunas": [],
+                    "tamanho_bytes": arquivo.stat().st_size,
+                })
+        
+        return {
+            "total": len(arquivos_info),
+            "arquivos": arquivos_info
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao listar arquivos: {e}")
+
+
+@app.get("/api/dados-processados/{cidade}/{ano}")
+def obter_dados_tratados(cidade: str, ano: int, limit: Optional[int] = Query(None, ge=1, le=10000)):
+    """
+    Obtém dados tratados de uma cidade e ano específicos.
+    
+    - **cidade**: petrolina ou garanhuns
+    - **ano**: 2020, 2021, 2022, 2023, ou 2024
+    - **limit**: Número máximo de registros a retornar (opcional, padrão: todos)
+    """
+    cidade_lower = cidade.lower()
+    arquivo = DATA_PROCESSED_PATH / f"{cidade_lower}_{ano}_tratado.csv"
+    
+    if not arquivo.exists():
+        raise HTTPException(
+            status_code=404, 
+            detail=f"Arquivo não encontrado para {cidade} em {ano}"
+        )
+    
+    try:
+        df = pd.read_csv(arquivo, index_col=0, parse_dates=True)
+        
+        if limit:
+            df = df.head(limit)
+        
+        # Converter para JSON
+        df_reset = df.reset_index()
+        df_reset['datetime'] = df_reset['datetime'].astype(str)
+        
+        return {
+            "cidade": cidade_lower,
+            "ano": ano,
+            "total_registros": len(df),
+            "registros_retornados": len(df_reset),
+            "periodo": {
+                "inicio": str(df.index.min()),
+                "fim": str(df.index.max())
+            },
+            "colunas": list(df.columns),
+            "dados": df_reset.to_dict(orient="records")
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao ler arquivo: {e}")
+
+
+@app.get("/api/dados-agregados/clusters")
+def obter_dados_clustered(
+    limit: Optional[int] = Query(None, ge=1, le=10000),
+    cluster: Optional[int] = Query(None, description="Filtrar por cluster específico")
+):
+    """
+    Obtém dados agregados semanais com clusters do modelo K-Means.
+    
+    - **limit**: Número máximo de registros (opcional)
+    - **cluster**: Filtrar por cluster específico (opcional)
+    """
+    arquivo = DATA_PROCESSED_PATH / "dados_semanais_clustered.csv"
+    
+    if not arquivo.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Arquivo de dados agregados não encontrado. Execute o notebook de modelagem primeiro."
+        )
+    
+    try:
+        df = pd.read_csv(arquivo)
+        
+        # Filtrar por cluster se especificado
+        if cluster is not None:
+            if 'cluster' not in df.columns:
+                raise HTTPException(status_code=400, detail="Coluna 'cluster' não encontrada")
+            df = df[df['cluster'] == cluster]
+        
+        # Limitar resultados
+        if limit:
+            df = df.head(limit)
+        
+        # Converter para JSON
+        if 'data_semana' in df.columns:
+            df['data_semana'] = pd.to_datetime(df['data_semana']).astype(str)
+        
+        return {
+            "total_registros": len(df),
+            "registros_retornados": len(df),
+            "filtro_cluster": cluster,
+            "colunas": list(df.columns),
+            "dados": df.to_dict(orient="records")
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao ler dados agregados: {e}")
+
+
+@app.get("/api/modelo/info")
+def obter_info_modelo():
+    """
+    Retorna informações sobre o modelo K-Means salvo.
+    """
+    modelo_path = DATA_PROCESSED_PATH / "modelos_backup" / "kmeans_model.pkl"
+    scaler_path = DATA_PROCESSED_PATH / "modelos_backup" / "scaler.pkl"
+    
+    info = {
+        "modelo_disponivel": modelo_path.exists(),
+        "scaler_disponivel": scaler_path.exists(),
+    }
+    
+    if modelo_path.exists():
+        try:
+            with open(modelo_path, 'rb') as f:
+                modelo = pickle.load(f)
+            info["modelo"] = {
+                "n_clusters": modelo.n_clusters if hasattr(modelo, 'n_clusters') else None,
+                "tipo": type(modelo).__name__,
+            }
+        except Exception as e:
+            info["erro_modelo"] = str(e)
+    
+    return info
+
+
+@app.post("/api/modelo/predict")
+async def prever_cluster(request: Request):
+    """
+    Faz predição de cluster para novos dados climáticos.
+    
+    Body esperado (JSON):
+    {
+        "temp_ar": 25.5,
+        "umidade": 70.0,
+        "vento_vel": 2.5,
+        "pressao": 970.5,
+        "radiacao": 500.0  // opcional
+    }
+    """
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="JSON inválido")
+    
+    modelo_path = DATA_PROCESSED_PATH / "modelos_backup" / "kmeans_model.pkl"
+    scaler_path = DATA_PROCESSED_PATH / "modelos_backup" / "scaler.pkl"
+    
+    if not modelo_path.exists() or not scaler_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail="Modelo não encontrado. Execute o notebook de modelagem primeiro."
+        )
+    
+    try:
+        # Carregar modelo e scaler
+        with open(modelo_path, 'rb') as f:
+            modelo = pickle.load(f)
+        with open(scaler_path, 'rb') as f:
+            scaler = pickle.load(f)
+        
+        # Preparar dados
+        features = ['temp_ar', 'umidade', 'vento_vel', 'pressao']
+        if 'radiacao' in body:
+            features.append('radiacao')
+        
+        # Verificar se todas as features estão presentes
+        missing = [f for f in features if f not in body]
+        if missing:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Features faltando: {missing}"
+            )
+        
+        # Criar array de features
+        X = [[body[f] for f in features]]
+        
+        # Normalizar
+        X_scaled = scaler.transform(X)
+        
+        # Predizer
+        cluster = modelo.predict(X_scaled)[0]
+        
+        return {
+            "cluster_predito": int(cluster),
+            "features_usadas": features,
+            "dados_entrada": body,
+            "dados_normalizados": X_scaled[0].tolist()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao fazer predição: {e}")
+
+
+@app.get("/api/dados-processados/{cidade}/{ano}/download")
+def download_dados_tratados(cidade: str, ano: int):
+    """
+    Faz download do arquivo CSV completo de dados tratados.
+    """
+    cidade_lower = cidade.lower()
+    arquivo = DATA_PROCESSED_PATH / f"{cidade_lower}_{ano}_tratado.csv"
+    
+    if not arquivo.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=f"Arquivo não encontrado para {cidade} em {ano}"
+        )
+    
+    def generate():
+        with open(arquivo, 'rb') as f:
+            yield from f
+    
+    return StreamingResponse(
+        generate(),
+        media_type="text/csv",
+        headers={
+            "Content-Disposition": f"attachment; filename={cidade_lower}_{ano}_tratado.csv"
+        }
+    )
