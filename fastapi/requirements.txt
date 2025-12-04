@@ -7,3 +7,5 @@ python-multipart
 minio
 snowflake-sqlalchemy
 requests
+psycopg2-binary
+sqlalchemy
