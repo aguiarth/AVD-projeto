@@ -68,80 +68,79 @@ def health_check():
 @app.post("/webhook/inmet/{device_name}")
 async def receive_from_thingsboard(device_name: str, request: Request):
     """
-    Recebe telemetria do ThingsBoard e salva no MinIO (bucket inmet-raw)
-    em formato JSON, organizado por: inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
+    Recebe uma linha CSV vinda do ThingsBoard (via Rule Chain) e salva no MinIO
+    em formato CSV, organizado por mês:
+    inmet/<device>/<ano>/<mes>/YYYYMM.csv
 
-    Formatos aceitos (payload vindo da Rule Chain):
-
-    1) Objeto único:
-       {
-         "ts": 1234567890000,
-         "values": { ... }
-       }
-
-    2) Lista de objetos:
-       [
-         {"ts": 1234567890000, "values": { ... }},
-         ...
-       ]
+    Linha esperada (sem cabeçalho; cabeçalho é gerado aqui):
+    2025-12-03T18:55:22Z,26.4,63,300,2.5,0,1012.8
     """
     try:
-        body = await request.json()
+        raw_body = await request.body()
+        linha_csv = raw_body.decode("utf-8").strip()
     except Exception:
-        raise HTTPException(status_code=400, detail="JSON inválido")
+        raise HTTPException(status_code=400, detail="Erro ao ler corpo da requisição")
 
-    # Metadados adicionados pela API
-    data_to_save = {
-        "device_name": device_name,
-        "received_at": datetime.utcnow().isoformat(),
-        "data": body,
-    }
+    if not linha_csv:
+        raise HTTPException(status_code=400, detail="Corpo da requisição está vazio")
 
     # ============================
-    # 1) Descobrir o timestamp correto
+    # 1) Descobrir o timestamp pela 1ª coluna do CSV
     # ============================
-    ts_ms = None
-
-    # Caso 1: payload é um único objeto
-    if isinstance(body, dict) and "ts" in body:
-        ts_ms = body["ts"]
-
-    # Caso 2: payload é uma lista de objetos
-    elif isinstance(body, list) and body and isinstance(body[0], dict) and "ts" in body[0]:
-        ts_ms = body[0]["ts"]
-
-    # Converter para datetime
-    if ts_ms is not None:
-        try:
-            ts_int = int(ts_ms)
-            ts_dt = datetime.utcfromtimestamp(ts_int / 1000.0)
-        except Exception:
-            ts_dt = datetime.utcnow()
-    else:
-        # Se não veio timestamp, usa horário de recebimento
-        ts_dt = datetime.utcnow()
-
-    # ============================
-    # 2) Montar o path com base NO ts
-    # ============================
-    # inmet/<device>/<ano>/<mes>/YYYYMMDD_HHMMSS.json
-    object_name = (
-        f"inmet/{device_name}/"
-        f"{ts_dt.year}/{ts_dt.month:02d}/"
-        f"{ts_dt.strftime('%Y%m%d_%H%M%S')}.json"
-    )
-
-    data_bytes = json.dumps(data_to_save, indent=2).encode("utf-8")
-    data_stream = io.BytesIO(data_bytes)
+    partes = linha_csv.split(",")
+    ts_str = partes[0] if partes else ""
 
     try:
+        # Trata tanto "2025-12-03T18:55:22Z" quanto "2025-12-03T18:55:22.123Z"
+        ts_str_norm = ts_str.replace("Z", "+00:00")
+        ts_dt = datetime.fromisoformat(ts_str_norm).replace(tzinfo=None)
+    except Exception:
+        # Se der problema no parse, usa horário de recebimento
+        ts_dt = datetime.utcnow()
+
+    ano = ts_dt.year
+    mes = ts_dt.month
+
+    # Nome do arquivo mensal:
+    # inmet/<device>/<ano>/<mes>/YYYYMM.csv  (ex: 202512.csv)
+    object_name = f"inmet/{device_name}/{ano}/{mes:02d}/{ano}{mes:02d}.csv"
+
+    # Linha com quebra de linha garantida
+    linha_csv_final = linha_csv + "\n"
+
+    try:
+        # ============================
+        # 2) Tentar ler arquivo existente para fazer append
+        # ============================
+        header = "hora,temp_ar,umidade,radiacao,vento_vel,precipitacao,pressao\n"
+
+        try:
+            # Se já existe, lemos o conteúdo atual
+            existing_obj = minio_client.get_object(RAW_BUCKET, object_name)
+            existing_data = existing_obj.read()
+            existing_obj.close()
+            existing_obj.release_conn()
+
+            # Apenas adicionamos a nova linha no final
+            new_content = existing_data + linha_csv_final.encode("utf-8")
+
+        except S3Error as e:
+            # Se o arquivo ainda não existe, criamos com cabeçalho
+            if e.code == "NoSuchKey":
+                new_content = (header + linha_csv_final).encode("utf-8")
+            else:
+                raise
+
+        data_stream = io.BytesIO(new_content)
+
         minio_client.put_object(
             RAW_BUCKET,
             object_name,
             data_stream,
-            length=len(data_bytes),
-            content_type="application/json",
+            length=len(new_content),
+            content_type="text/csv",
         )
+
     except S3Error as e:
         raise HTTPException(status_code=500, detail=f"Erro ao salvar no MinIO: {e}")
 
@@ -150,7 +149,7 @@ async def receive_from_thingsboard(device_name: str, request: Request):
         "bucket": RAW_BUCKET,
         "object": object_name,
         "device": device_name,
-        "timestamp": data_to_save["received_at"],
+        "received_at": datetime.utcnow().isoformat(),
     }
 
 
