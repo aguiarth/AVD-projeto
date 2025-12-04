@@ -73,30 +73,36 @@ A solução é baseada em contêineres **Docker** e orquestrada via **Docker Com
 | :--- | :--- | :--- | :--- |
 | **JupyterLab** | Ambiente de análise, tratamento de dados e modelagem | `8888` | `http://localhost:8888` |
 | **FastAPI** | Interface de ingestão dos dados brutos do INMET e integração com MinIO/S3 | `8000` | `http://localhost:8000` |
-| **MinIO/S3** | Armazenamento de dados brutos e modelos | `9000` (API)<br>`9001` (Console) | `http://localhost:9001` |
-| **Snowflake** | Estruturação de dados tratados (banco de dados cloud) | - | Configurado externamente |
-| **PostgreSQL** | Banco de dados relacional para armazenamento estruturado | `5432` | `http://localhost:8085` (Adminer) |
+| **MinIO/S3** | Data Lake - Armazenamento de dados brutos e modelos | `9000` (API)<br>`9001` (Console) | `http://localhost:9001` |
+| **PostgreSQL** | Data Warehouse - Banco de dados relacional para armazenamento estruturado | `5432` | `http://localhost:8085` (Adminer) |
 | **Adminer** | Interface web para gerenciamento do PostgreSQL | `8085` | `http://localhost:8085` |
 | **MLFlow** | Registro e versionamento do modelo de K-Means e artefatos | `5000` | `http://localhost:5000` |
 | **ThingsBoard** | Plataforma IoT para visualização de dados e dashboards | `8090` | `http://localhost:8090` |
 
-### 🔄 Fluxo Geral do Pipeline
+### 🔄 Fluxo Detalhado do Pipeline
 
 ```mermaid
-graph LR
-    A[INMET CSV] --> B[FastAPI]
-    B --> C[MinIO/S3]
-    C --> D[Jupyter Notebook]
-    D --> E[Snowflake/PostgreSQL]
-    D --> F[MLFlow]
-    E --> G[ThingsBoard]
-    F --> G
+graph TD
+    A[Dados Limpos] --> B[send_inmet_to_tb.py]
+    B --> C[ThingsBoard]
+    C -->|Regra de Negócio| D[MinIO/S3]
+    D -->|ETL| E[PostgreSQL]
+    E -->|Extração| F[Jupyter Notebook]
+    F -->|K-Means| G[MLFlow]
+    F --> H[Modelos e Resultados]
+    H --> C
 ```
 
-1. **Ingestão:** Os dados brutos do INMET são ingeridos via FastAPI e salvos no MinIO/S3.
-2. **Tratamento:** O Jupyter Notebook processa os dados brutos, aplica limpeza e interpolação temporal.
-3. **Estruturação:** Os dados tratados são carregados no Snowflake ou PostgreSQL para armazenamento estruturado.
-4. **Modelagem:** O notebook aplica K-Means para identificar padrões climáticos e registra o modelo no MLFlow.
+#### Fluxo de Dados Detalhado
+
+1. **Ingestão:** Os dados limpos são enviados ao ThingsBoard via script Python (`scripts/send_inmet_to_tb.py`).
+
+2. **ThingsBoard → MinIO:** O ThingsBoard aplica uma **Regra de Negócio** para persistir os dados brutos no MinIO/S3 (Data Lake).
+
+3. **MinIO → PostgreSQL:** A transferência do data lake (MinIO) para o data warehouse (PostgreSQL) é realizada através de um script de ETL dedicado (`scripts/etl_minio_to_postgres.py`).
+
+4. **Modelagem:** O Jupyter Notebook extrai os dados estruturados diretamente do PostgreSQL para o Machine Learning (K-Means), que é rastreado pelo MLFlow.
+
 5. **Visualização:** O ThingsBoard consome os resultados do agrupamento para gerar dashboards interativos.
 
 ---
@@ -129,7 +135,6 @@ AVD-projeto-1/
 │   └── Dockerfile               # Imagem Docker FastAPI
 ├── scripts/
 │   ├── etl_minio_to_postgres.py    # ETL MinIO → PostgreSQL
-│   ├── etl_minio_to_snowflake.py   # ETL MinIO → Snowflake
 │   ├── send_inmet_to_tb.py          # Envio de dados para ThingsBoard
 │   ├── test_pipeline.py             # Testes do pipeline
 │   └── upload_raw_to_minio.py       # Upload de dados brutos
@@ -159,9 +164,8 @@ AVD-projeto-1/
 - **Python 3.11** - Linguagem de programação principal
 
 ### 💾 Armazenamento de Dados
-- **MinIO** - Armazenamento de objetos compatível com S3
-- **Snowflake** - Data warehouse cloud
-- **PostgreSQL 15** - Banco de dados relacional
+- **MinIO** - Data Lake - Armazenamento de objetos compatível com S3
+- **PostgreSQL 15** - Data Warehouse - Banco de dados relacional
 - **SQLAlchemy** - ORM para Python
 
 ### 📊 Análise de Dados e Machine Learning
@@ -185,7 +189,6 @@ AVD-projeto-1/
 ### 📡 Integração e Comunicação
 - **Requests** - Cliente HTTP para Python
 - **psycopg2-binary** - Adaptador PostgreSQL para Python
-- **snowflake-connector-python** - Conector oficial Snowflake
 - **python-multipart** - Suporte para upload de arquivos
 
 ---
@@ -200,11 +203,8 @@ Arquivo: `fastapi/requirements.txt`
 fastapi
 uvicorn[standard]
 pandas
-snowflake-connector-python
-snowflake-connector-python[pandas]
 python-multipart
 minio
-snowflake-sqlalchemy
 requests
 psycopg2-binary
 sqlalchemy
@@ -216,9 +216,6 @@ Instaladas via `Dockerfile.jupyter`:
 
 ```
 minio
-snowflake-connector-python
-snowflake-connector-python[pandas]
-snowflake-sqlalchemy
 psycopg2-binary
 sqlalchemy
 ```
@@ -241,11 +238,10 @@ seaborn
 
 # Integração
 minio
-snowflake-connector-python
-snowflake-sqlalchemy
 psycopg2-binary
 sqlalchemy
 requests
+```
 ```
 
 ### 📦 Dependências dos Scripts
@@ -254,9 +250,9 @@ requests
 # ETL e Processamento
 pandas
 minio
-snowflake-connector-python
 sqlalchemy
 psycopg2-binary
+```
 
 # Comunicação
 requests
@@ -398,7 +394,6 @@ Você deve ver todos os serviços com status `Up`:
    - Este notebook processa todos os arquivos CSV do INMET (2020-2024)
    - Aplica limpeza, interpolação temporal e tratamento de valores faltantes
    - Salva os dados tratados em `/data/processed/`
-   - Carrega os dados diretamente no Snowflake (se configurado)
 
    **Variáveis processadas:**
    - Temperatura do ar (°C)
@@ -415,7 +410,7 @@ Você deve ver todos os serviços com status `Up`:
 #### Passo 2: Modelagem K-Means
 
 1. **Execute o notebook `02_Modelagem_KMeans.ipynb`:**
-   - Carrega os dados tratados (de `/data/processed/` ou Snowflake)
+   - Carrega os dados estruturados diretamente do PostgreSQL
    - Agrega dados por semana
    - Trata outliers
    - Aplica normalização (StandardScaler)
@@ -444,7 +439,9 @@ Você deve ver todos os serviços com status `Up`:
 
 2. **Configure dispositivos e dashboards:**
    - Crie dispositivos para cada estação (Petrolina, Garanhuns)
-   - Use o script `scripts/send_inmet_to_tb.py` para enviar dados
+   - Configure uma **Regra de Negócio** no ThingsBoard para persistir dados no MinIO
+   - Use o script `scripts/send_inmet_to_tb.py` para enviar dados limpos ao ThingsBoard
+   - Execute o script `scripts/etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
    - Crie dashboards para visualizar os clusters identificados
 
 ### 8.5. Executar Scripts Auxiliares
@@ -452,14 +449,11 @@ Você deve ver todos os serviços com status `Up`:
 #### Linux / macOS
 
 ```bash
-# ETL MinIO → PostgreSQL
-python scripts/etl_minio_to_postgres.py
-
-# ETL MinIO → Snowflake
-python scripts/etl_minio_to_snowflake.py
-
-# Enviar dados para ThingsBoard
+# Enviar dados limpos para ThingsBoard
 python scripts/send_inmet_to_tb.py
+
+# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
+python scripts/etl_minio_to_postgres.py
 
 # Testar pipeline
 python scripts/test_pipeline.py
@@ -468,14 +462,11 @@ python scripts/test_pipeline.py
 #### Windows (PowerShell)
 
 ```powershell
-# ETL MinIO → PostgreSQL
-python scripts/etl_minio_to_postgres.py
-
-# ETL MinIO → Snowflake
-python scripts/etl_minio_to_snowflake.py
-
-# Enviar dados para ThingsBoard
+# Enviar dados limpos para ThingsBoard
 python scripts/send_inmet_to_tb.py
+
+# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
+python scripts/etl_minio_to_postgres.py
 
 # Testar pipeline
 python scripts/test_pipeline.py
@@ -484,9 +475,8 @@ python scripts/test_pipeline.py
 #### Windows (CMD)
 
 ```cmd
-python scripts\etl_minio_to_postgres.py
-python scripts\etl_minio_to_snowflake.py
 python scripts\send_inmet_to_tb.py
+python scripts\etl_minio_to_postgres.py
 python scripts\test_pipeline.py
 ```
 
@@ -509,7 +499,7 @@ python scripts\test_pipeline.py
 
 ### 📓 `01_tratamento_dados_inmet.ipynb`
 
-**Propósito:** Processamento completo de todos os arquivos do INMET e carga no Snowflake.
+**Propósito:** Processamento completo de todos os arquivos do INMET.
 
 **Funcionalidades:**
 - Processa todos os arquivos CSV (2020-2024, Petrolina e Garanhuns)
@@ -517,8 +507,7 @@ python scripts\test_pipeline.py
 - Interpola valores faltantes usando método temporal
 - Remove colunas 100% vazias (ex: radiação quando ausente)
 - Cria features auxiliares (hora_num, mes)
-- Salva dados tratados em CSV
-- Carrega dados no Snowflake (se configurado)
+- Salva dados tratados em CSV em `/data/processed/`
 
 **Tratamento aplicado:**
 - Conversão de vírgula para ponto decimal
@@ -534,7 +523,7 @@ python scripts\test_pipeline.py
 **Propósito:** Modelagem de clustering para identificar padrões climáticos.
 
 **Funcionalidades:**
-- Carrega dados tratados
+- Extrai dados estruturados diretamente do PostgreSQL
 - Agregação semanal dos dados horários
 - Tratamento de outliers
 - Normalização com StandardScaler
@@ -560,7 +549,7 @@ python scripts\test_pipeline.py
 
 ### 🔧 `scripts/etl_minio_to_postgres.py`
 
-Script para extrair dados do MinIO e carregar no PostgreSQL.
+Script de ETL para transferir dados do Data Lake (MinIO) para o Data Warehouse (PostgreSQL). Este script deve ser executado após o ThingsBoard persistir os dados no MinIO através de sua Regra de Negócio.
 
 **Uso:**
 
@@ -574,36 +563,20 @@ python scripts\etl_minio_to_postgres.py
 
 **Funcionalidades:**
 - Conecta ao MinIO e lista arquivos CSV
-- Carrega dados do MinIO
+- Carrega dados do MinIO (dados brutos persistidos pelo ThingsBoard)
+- Cria tabela `inmet_raw` no PostgreSQL (se não existir)
 - Insere dados na tabela `inmet_raw` do PostgreSQL
 - Organiza dados por dispositivo (Petrolina/Garanhuns)
 
-### 🔧 `scripts/etl_minio_to_snowflake.py`
-
-Script para extrair dados do MinIO e carregar no Snowflake.
-
-**Uso:**
-
-```bash
-# Linux / macOS
-python scripts/etl_minio_to_snowflake.py
-
-# Windows
-python scripts\etl_minio_to_snowflake.py
-```
-
-**Funcionalidades:**
-- Conecta ao MinIO e lista arquivos JSON
-- Processa dados JSON do ThingsBoard
-- Cria tabela `TELEMETRIA_RAW` no Snowflake (se não existir)
-- Envia dados em lotes para o Snowflake
-
-**Configuração necessária:**
-- Editar variáveis `SNOWFLAKE_CONFIG` no script com suas credenciais
+**Fluxo:**
+1. Execute `send_inmet_to_tb.py` para enviar dados ao ThingsBoard
+2. O ThingsBoard persiste dados brutos no MinIO via Regra de Negócio
+3. Execute este script para transferir dados do MinIO para PostgreSQL
+4. O Jupyter Notebook extrai dados do PostgreSQL para modelagem
 
 ### 🔧 `scripts/send_inmet_to_tb.py`
 
-Script para enviar dados processados para o ThingsBoard.
+Script para enviar dados limpos processados para o ThingsBoard. Este é o primeiro passo do pipeline de dados.
 
 **Uso:**
 
@@ -623,6 +596,11 @@ python scripts\send_inmet_to_tb.py
 
 **Configuração necessária:**
 - Editar tokens dos dispositivos no dicionário `DEVICES`
+
+**Fluxo:**
+1. Este script envia dados limpos para o ThingsBoard
+2. O ThingsBoard aplica uma Regra de Negócio para persistir dados brutos no MinIO
+3. Execute `etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
 
 ### 🔧 `scripts/test_pipeline.py`
 
@@ -722,12 +700,13 @@ docker-compose logs jupyterlab
 docker-compose logs jupyterlab
 ```
 
-### ❌ Problema: Snowflake não conecta
+### ❌ Problema: PostgreSQL não conecta
 
 **Solução:**
-- Verifique as credenciais no notebook `01_tratamento_dados_inmet.ipynb`
-- Confirme que o Snowflake está acessível
-- Verifique a configuração de rede/firewall
+- Verifique se o serviço está rodando: `docker-compose ps postgres`
+- Confirme credenciais: `postgres` / `postgres`
+- Acesse via Adminer: `http://localhost:8085`
+- Verifique a conexão no notebook: `postgresql://postgres:postgres@postgres:5432/clima`
 
 ### ❌ Problema: MLFlow não salva modelos
 
@@ -851,11 +830,11 @@ O relatório final em PDF, contendo a arquitetura, metodologia, resultados e con
 - [INMET - Instituto Nacional de Meteorologia](https://portal.inmet.gov.br/)
 - [ThingsBoard - Documentação](https://thingsboard.io/docs/)
 - [MLFlow - Documentação](https://www.mlflow.org/docs/latest/index.html)
-- [Snowflake - Documentação](https://docs.snowflake.com/)
 - [Scikit-learn K-Means](https://scikit-learn.org/stable/modules/clustering.html#k-means)
 - [FastAPI - Documentação](https://fastapi.tiangolo.com/)
 - [Docker - Documentação](https://docs.docker.com/)
 - [PostgreSQL - Documentação](https://www.postgresql.org/docs/)
+- [MinIO - Documentação](https://min.io/docs/)
 
 ---
 
