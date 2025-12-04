@@ -1,0 +1,87 @@
+services:
+  fastapi:
+    build:
+      context: ./fastapi
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./fastapi:/app
+    environment:
+      # Variáveis de ambiente podem ser passadas via .env (opcional) ou variáveis do sistema
+      - AWS_BUCKET=${AWS_BUCKET:-}
+      - AWS_REGION=${AWS_REGION:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - THINGSBOARD_URL=${THINGSBOARD_URL:-http://localhost:8080}
+      - THINGSBOARD_DEVICE_ID=${THINGSBOARD_DEVICE_ID:-}
+      - THINGSBOARD_TENANT_USER=${THINGSBOARD_TENANT_USER:-tenant@thingsboard.org}
+      - THINGSBOARD_TENANT_PASSWORD=${THINGSBOARD_TENANT_PASSWORD:-tenant}
+
+  jupyter:
+    build:
+      context: ./notebooks
+      dockerfile: Dockerfile
+    container_name: jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data
+    environment:
+      JUPYTER_TOKEN: "avd"
+    command: start-notebook.sh --NotebookApp.token='avd'
+
+  thingsboard:
+    image: thingsboard/tb-postgres:3.3.4
+    container_name: thingsboard
+    restart: always
+    ports:
+      - "8080:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://thingsboard-postgres:5432/thingsboard
+      SPRING_DATASOURCE_USERNAME: thingsboard
+      SPRING_DATASOURCE_PASSWORD: thingsboard
+    depends_on:
+      - thingsboard-postgres
+    volumes:
+      - thingsboard_data:/data
+      - thingsboard_logs:/var/log/thingsboard
+
+  thingsboard-postgres:
+    image: postgres:14
+    container_name: thingsboard-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: thingsboard
+      POSTGRES_USER: thingsboard
+      POSTGRES_PASSWORD: thingsboard
+    volumes:
+      - tb_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.0
+    container_name: mlflow
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=file:/mlflow/backend
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=file:/mlflow/artifacts
+    volumes:
+      - ./mlflow:/mlflow
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri file:/mlflow/backend --default-artifact-root file:/mlflow/artifacts
+
+volumes:
+  thingsboard_data:
+    name: thingsboard_data
+  thingsboard_logs:
+    name: thingsboard_logs
+  tb_pgdata:
+    name: tb_pgdata
+
+networks:
+  default:
+    name: avd_network
