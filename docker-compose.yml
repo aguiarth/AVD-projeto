@@ -61,7 +61,7 @@ services:
     command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/artifacts --host 0.0.0.0
 
   # =========================
-  #  POSTGRESQL (NOVO)
+  #  POSTGRESQL
   # =========================
   postgres:
     image: postgres:15
@@ -77,7 +77,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   # =========================
-  #  ADMINER (GUI WEB) (NOVO)
+  #  ADMINER (GUI WEB)
   # =========================
   adminer:
     image: adminer
