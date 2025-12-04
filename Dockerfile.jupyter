@@ -3,11 +3,12 @@ FROM jupyter/datascience-notebook
 # Instala as dependências necessárias (usando root temporariamente para instalar globalmente)
 USER root
 RUN pip install --no-cache-dir \
-    # NOVO: Adicione 'minio' para permitir a conexão com o MinIO/S3
     minio \
     snowflake-connector-python \
     snowflake-connector-python[pandas] \
-    snowflake-sqlalchemy
+    snowflake-sqlalchemy \
+    psycopg2-binary \
+    sqlalchemy
 
 # Retorna ao usuário padrão (jovyan) para manter a segurança
 USER jovyan
