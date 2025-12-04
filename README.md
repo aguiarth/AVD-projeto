@@ -128,7 +128,7 @@ AVD-projeto-1/
 ├── notebooks/
 │   ├── 01_carregar_dados.ipynb          # Notebook exploratório
 │   ├── 01_tratamento_dados_inmet.ipynb  # Processamento completo
-│   └── 02_Modelagem_KMeans.ipynb         # Modelagem e clustering
+│   └── 02_Modelagem.ipynb         # Modelagem e clustering
 ├── fastapi/
 │   ├── main.py                  # API de ingestão
 │   ├── requirements.txt         # Dependências FastAPI
@@ -137,7 +137,6 @@ AVD-projeto-1/
 │   ├── etl_minio_to_postgres.py    # ETL MinIO → PostgreSQL
 │   ├── send_inmet_to_tb.py          # Envio de dados para ThingsBoard
 │   ├── test_pipeline.py             # Testes do pipeline
-│   └── upload_raw_to_minio.py       # Upload de dados brutos
 ├── mlflow/
 │   └── artifacts/                # Artefatos dos modelos
 ├── minio/
