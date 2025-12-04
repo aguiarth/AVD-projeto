@@ -1,4 +1,23 @@
 services:
+  fastapi:
+    build:
+      context: ./fastapi
+    container_name: fastapi-clima
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./fastapi/.env
+    volumes:
+      - ./data:/app/data        # para enxergar CSVs tratados
+      - ./fastapi:/app           # montar código para hot-reload
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    depends_on:
+      - minio
+      - thingsboard
+    networks:
+      - avd-network
+
   jupyterlab:
     build:
       context: .
@@ -14,27 +33,38 @@ services:
       - avd-network
 
   thingsboard:
-    image: thingsboard/tb-postgres
+    image: thingsboard/tb-postgres:3.3.4
     container_name: thingsboard
     restart: always
     ports:
       - "8090:9090"
     environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://thingsboard-postgres:5432/thingsboard
+      SPRING_DATASOURCE_USERNAME: thingsboard
+      SPRING_DATASOURCE_PASSWORD: thingsboard
       TB_QUEUE_TYPE: in-memory
+    depends_on:
+      - thingsboard-postgres
     volumes:
-      - ./thingsboard/data:/data
+      - thingsboard_data:/data
       - ./thingsboard/logs:/var/log/thingsboard
+    networks:
+      - avd-network
 
-  fastapi:
-    build: ./fastapi
-    container_name: fastapi-clima
+  thingsboard-postgres:
+    image: postgres:14
+    container_name: thingsboard-postgres
     restart: always
-    ports:
-      - "8000:8000"
+    environment:
+      POSTGRES_DB: thingsboard
+      POSTGRES_USER: thingsboard
+      POSTGRES_PASSWORD: thingsboard
     volumes:
-      - ./data:/app/data        # para enxergar CSVs tratados
-      - ./fastapi:/app           # montar código para hot-reload
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      - tb_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - avd-network
   
   minio:
     image: minio/minio
@@ -49,6 +79,8 @@ services:
     volumes:
       - ./minio/data:/data
     command: server /data --console-address ":9001"
+    networks:
+      - avd-network
 
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.7.1
@@ -63,6 +95,57 @@ services:
     command: mlflow server --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow/artifacts --host 0.0.0.0
     networks:
       - avd-network
+
+  tb-loader:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./scripts:/app
+      - ./data:/data
+    command: >
+      sh -c "
+      echo '[TB-LOADER] Instalando dependências...';
+      pip install --no-cache-dir -r /app/requirements.txt;
+      echo '[TB-LOADER] Aguardando ThingsBoard (60s)...';
+      sleep 60;
+      echo '[TB-LOADER] Iniciando envio de dados...';
+      cd /app;
+      python send_inmet_to_tb.py;
+      "
+    environment:
+      THINGSBOARD_URL: http://thingsboard:9090
+      THINGSBOARD_DEVICE_ACCESS_TOKEN_PETROLINA: ${THINGSBOARD_DEVICE_ACCESS_TOKEN_PETROLINA:-6GN7GZrT5gpRafs2anoB}
+      THINGSBOARD_DEVICE_ACCESS_TOKEN_GARANHUNS: ${THINGSBOARD_DEVICE_ACCESS_TOKEN_GARANHUNS:-QRPQCKbXVQfesCEg7FdU}
+      CSV_PATH: /data/raw
+    depends_on:
+      thingsboard:
+        condition: service_started
+    networks:
+      - avd-network
+
+  inmet-ingest:
+    image: curlimages/curl:8.11.0
+    depends_on:
+      tb-loader:
+        condition: service_completed_successfully
+      fastapi:
+        condition: service_started
+      thingsboard:
+        condition: service_started
+    command: >
+      sh -c "
+      echo '[INMET-INGEST] tb-loader finalizado, iniciando ingest...';
+      sleep 10;
+      curl -X POST http://fastapi:8000/ingest/inmet
+      "
+    environment:
+      THINGSBOARD_URL: http://thingsboard:9090
+    networks:
+      - avd-network
+
+volumes:
+  thingsboard_data:
+  tb_pgdata:
 
 networks:
   avd-network:
