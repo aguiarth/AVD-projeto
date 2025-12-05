@@ -26,7 +26,7 @@
 7. [Instalação e Configuração](#7-instalação-e-configuração)
 8. [Instruções de Execução](#8-instruções-de-execução)
 9. [Notebooks do Projeto](#9-notebooks-do-projeto)
-10. [Scripts Auxiliares](#10-scripts-auxiliares)
+10. [Scripts Auxiliares](#10-scripts)
 11. [Troubleshooting](#11-troubleshooting)
 12. [Resultados e Conclusões](#12-resultados-e-conclusões)
 
