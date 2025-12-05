@@ -357,7 +357,7 @@ Você deve ver todos os serviços com status `Up`:
    - Permite visualizar e explorar um arquivo específico
    - Usa a mesma função de processamento do notebook principal
 
-#### Passo 3: Visualização no ThingsBoard
+#### Passo 2: Thingsboard->MinIO->PostgreSQL->Jupyter->MLFlow/MinIO->Thingsboard
 
 1. **Acesse o ThingsBoard:** `http://localhost:8090`
    - Credenciais padrão: `tenant@thingsboard.org` / `tenant`
@@ -368,6 +368,17 @@ Você deve ver todos os serviços com status `Up`:
    - Use o script `scripts/send_inmet_to_tb.py` para enviar dados limpos ao ThingsBoard
    - Execute o script `scripts/etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
    - Crie dashboards para visualizar os clusters identificados
+3. Modelagem e MLOps (K-Means) 🤖
+    - Esta etapa usa os dados estruturados no PostgreSQL para aplicar a Machine Learning e registrar os artefatos.
+    - Execute o notebook 02_modelagem.ipynb:
+    - Este notebook carrega os dados processados do PostgreSQL (tabela inmet_raw).
+    - Aplica o Agrupamento K-Means (clusterização) nos dados de Petrolina para identificar padrões climáticos semanais.
+    - Treina modelos de Regressão e Classificação para Garanhuns, utilizando os clusters gerados como features.
+    - Verifique o MLFlow: Após a execução, acesse http://localhost:5000 para visualizar as métricas (MAE, R², Acurácia) e parâmetros registrados.
+    - Verifique o MinIO (Data Lake):
+    - Os modelos serializados (.pkl) e relatórios de classificação são salvos no MinIO (http://localhost:9001), no bucket inmet-models.
+#### Passo 3: Visualização no ThingsBoard
+    - Acesse o ThingsBoard: http://localhost:8090
 
 ## 9. Notebooks do Projeto
 
