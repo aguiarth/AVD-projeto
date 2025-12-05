@@ -109,21 +109,32 @@ AVD-projeto-1/
 ├── data/
 │   ├── raw/                    # Dados brutos do INMET (CSV)
 │   │   ├── 2020/
+│   │   │   ├── INMET_NE_PE_A307_PETROLINA_01-01-2020_A_31-12-2020.CSV
+│   │   │   └── INMET_NE_PE_A322_GARANHUNS_01-01-2020_A_31-12-2020.CSV
 │   │   ├── 2021/
+│   │   │   ├── INMET_NE_PE_A307_PETROLINA_01-01-2021_A_31-12-2021.CSV
+│   │   │   └── INMET_NE_PE_A322_GARANHUNS_01-01-2021_A_31-12-2021.CSV
 │   │   ├── 2022/
+│   │   │   ├── INMET_NE_PE_A307_PETROLINA_01-01-2022_A_31-12-2022.CSV
+│   │   │   └── INMET_NE_PE_A322_GARANHUNS_01-01-2022_A_31-12-2022.CSV
 │   │   ├── 2023/
+│   │   │   ├── INMET_NE_PE_A307_PETROLINA_01-01-2023_A_31-12-2023.CSV
+│   │   │   └── INMET_NE_PE_A322_GARANHUNS_01-01-2023_A_31-12-2023.CSV
 │   │   └── 2024/
+│   │       ├── INMET_NE_PE_A307_PETROLINA_01-01-2024_A_31-12-2024.CSV
+│   │       └── INMET_NE_PE_A322_GARANHUNS_01-01-2024_A_31-12-2024.CSV
 │   └── processed/               # Dados tratados (CSV)
 │       ├── petrolina_*_tratado.csv
-│       ├── garanhuns_*_tratado.csv
+│       └── garanhuns_*_tratado.csv
 ├── notebooks/
 │   ├── 01_carregar_dados.ipynb          # Notebook exploratório
 │   ├── 01_tratamento_dados_inmet.ipynb  # Processamento completo
 │   ├── 02_Modelagem.ipynb               # Modelagem e clustering
+│   ├── 03_testando_modelo.ipynb         # Teste previsão
 │   ├── classification_report.json
 │   ├── classification_report.txt
 │   ├── decision_tree_classifier.pkl
-│   ├── random_forest_regressor.pkl
+│   └── random_forest_regressor.pkl
 ├── fastapi/
 │   ├── __init__.py
 │   ├── main.py                   # API de ingestão
@@ -132,13 +143,8 @@ AVD-projeto-1/
 ├── scripts/
 │   ├── etl_minio_to_postgres.py  # ETL MinIO → PostgreSQL
 │   ├── send_inmet_to_tb.py       # Envio de dados para ThingsBoard
-│   ├── test_pipeline.py          # Testes do pipeline
-├── mlflow/
-│   └── artifacts/                # Artefatos dos modelos
-├── minio/
-│   └── data/                     # Dados armazenados no MinIO
+│   └── test_pipeline.py          # Testes do pipeline
 ├── thingsboard/
-│   ├── dashboards/               # Dashboards do ThingsBoard
 │   └── projetoavd.json
 ├── .gitignore
 ├── docker-compose.yml            # Orquestração dos serviços
@@ -286,7 +292,7 @@ brew install docker docker-compose
 Comandos para Linux / macOS / Windows:
 
 ```bash
-git clone <git@github.com:aguiarth/AVD-projeto.git>
+git clone https://github.com/aguiarth/AVD-projeto.git
 cd AVD-projeto
 ```
 
@@ -351,25 +357,53 @@ Você deve ver todos os serviços com status `Up`:
    - Permite visualizar e explorar um arquivo específico
    - Usa a mesma função de processamento do notebook principal
 
-#### Passo 2: Modelagem K-Means
+### 02 - Fluxo de Modelagem Climática
 
-1. **Execute o notebook `02_modelagem.ipynb`:**
-   - Carrega os dados estruturados diretamente do PostgreSQL
-   - Agrega dados por semana
-   - Trata outliers
-   - Aplica normalização (StandardScaler)
-   - Treina o modelo K-Means
-   - Avalia o modelo (silhouette score)
-   - Registra o modelo no MLFlow
+O notebook `02_modelagem.ipynb` é a etapa de **Modelagem e MLOps** que visa identificar padrões climáticos e construir modelos preditivos para Garanhuns (`INMET_Garanhuns`), utilizando Petrolina (`INMET_Petrolina`) como base de aprendizado.
 
-   **Variáveis utilizadas na agregação semanal:**
-   - Temperatura (média e desvio padrão)
-   - Umidade (média e mínima)
-   - Radiação (soma)
-   - Precipitação (soma)
-   - Pressão (média)
-   
-   *Nota: A velocidade do vento é processada nos dados brutos, mas não é utilizada na agregação semanal para o modelo K-Means.*
+#### 1. Pré-processamento e Agregação
+
+| Etapa | Detalhe | Observações |
+| :--- | :--- | :--- |
+| **Carregamento** | Dados brutos (`inmet_raw`) são carregados diretamente do **PostgreSQL**. | - |
+| **Tratamento de Outliers** | Remoção de outliers por cidade utilizando a técnica do Intervalo Interquartil (IQR). | O tratamento é aplicado de forma isolada aos dados de cada estação (`device_name`). |
+| **Agregação Semanal** | Transformação dos dados horários em dados semanais (ISO year-week). | A base é separada em `df_pet_sem` (treino) e `df_gar_sem` (aplicação). |
+
+**Funções de Agregação Semanal (`agregar_semanal`):**
+| Variável | Agregação |
+| :--- | :--- |
+| `temp_ar` | **Média** (`mean`)|
+| `umidade` | **Média** (`mean`)|
+| `vento_vel` | **Média** (`mean`)|
+| `pressao` | **Média** (`mean`)|
+| `radiacao` | **Média** (`mean`)|
+| `precipitacao`| **Soma** (`sum`)|
+
+#### 2. Modelagem Não Supervisionada (Clusterização)
+
+* **K-Means (k=8)**: O modelo é treinado nos dados de **Petrolina** para identificar padrões climáticos semanais.
+* **Aplicação em Garanhuns**: O modelo K-Means treinado é aplicado aos dados de **Garanhuns** para prever o `cluster` (padrão climático) ao qual cada semana pertence.
+* **Variáveis no K-Means**: Todas as 6 variáveis agregadas são utilizadas: `temp_ar`, `umidade`, `vento_vel`, `precipitacao`, `pressao`, e `radiacao`.
+* **Observação**: O notebook não calcula métricas não supervisionadas (como *Silhouette Score*), mas analisa a distribuição dos clusters em Garanhuns e compara as médias dos clusters dominantes.
+
+#### 3. Modelagem Supervisionada (Treino Final em Garanhuns)
+
+O notebook treina dois modelos supervisionados na base de **Garanhuns**, utilizando o `cluster` (previsto pelo K-Means) como *feature* ou *label*:
+
+1.  **Regressão (RandomForestRegressor)**
+    * **Objetivo**: Prever a **Umidade** (`y = umidade`).
+    * **Features (X)**: `temp_ar`, `vento_vel`, `precipitacao`, `pressao`, `radiacao`, **e o `cluster`**.
+    * **Métricas**: `MAE` (Mean Absolute Error) e `R²` (R-squared).
+
+2.  **Classificação (DecisionTreeClassifier)**
+    * **Objetivo**: Prever o **Cluster** (`yc = cluster`).
+    * **Features (Xc)**: `temp_ar`, `umidade`, `vento_vel`, `precipitacao`, `pressao`, e `radiacao`.
+    * **Métricas**: `Acurácia` e `Classification Report`.
+
+#### 4. MLOps (MLFlow e MinIO)
+
+* **MLFlow Tracking**: Métricas e parâmetros de ambos os modelos supervisionados (Random Forest e Decision Tree) são registrados em um *run* pai (`Run_Modelos_Finais`) e dois *runs* aninhados. **O modelo K-Means não é explicitamente registrado**.
+* **MinIO Storage**: Os modelos (`.pkl`) e os relatórios de classificação (`.txt` e `.json`) são salvos em *paths* específicos no *bucket* `inmet-models` do **MinIO**.
 
 2. **Visualizar o modelo no MLFlow:**
    - Acesse `http://localhost:5000`
@@ -439,28 +473,42 @@ python scripts/test_pipeline.py
 
 **Quando usar:** Para processar todos os dados e preparar para modelagem.
 
-### 📓 `02_Modelagem_KMeans.ipynb`
+### 📓 `02_modelagem.ipynb` (Modelagem, Avaliação e MLOps)
 
-**Propósito:** Modelagem de clustering para identificar padrões climáticos.
+O notebook detalha o pipeline de análise e criação de **dois modelos supervisionados** (Regressão e Classificação) para a cidade de Garanhuns, utilizando os padrões climáticos extraídos de Petrolina.
 
-**Funcionalidades:**
-- Extrai dados estruturados diretamente do PostgreSQL
-- Agregação semanal dos dados horários
-- Tratamento de outliers
-- Normalização com StandardScaler
-- Treinamento de K-Means
-- Avaliação com silhouette score
-- Visualização dos clusters
-- Registro no MLFlow
+**Propósito:**  Propósito e Abordagem
 
-**Variáveis utilizadas na agregação semanal:**
-- Temperatura (média e desvio padrão)
-- Umidade (média e mínima)
-- Radiação (soma)
-- Precipitação (soma)
-- Pressão (média)
+O principal objetivo é utilizar um modelo de **Clusterização** (K-Means) treinado com dados de **Petrolina** para gerar *labels* (padrões climáticos/clusters) que são, então, usados para construir modelos de previsão para **Garanhuns**.
 
-*Nota: A velocidade do vento é processada nos dados brutos, mas não é utilizada na agregação semanal para o modelo K-Means.*
+**Funcionalidades e Fluxo de Execução:**
+
+| Etapa | Detalhe |
+| :--- | :--- |
+| **Extração de Dados** | Extrai dados brutos (`inmet_raw`) diretamente do **PostgreSQL**. |
+| **Tratamento de Outliers** | Aplica a remoção de outliers por cidade via Intervalo Interquartil (IQR). |
+| **Agregação Semanal** | Transforma dados horários em dados semanais (ISO year-week) para ambas as cidades. |
+| **K-Means (Não Supervisionado)** | Treina o K-Means (`k=8`) com dados **normalizados** de **Petrolina**. |
+| **Geração de Labels** | O modelo treinado é aplicado para classificar as semanas de **Garanhuns**, criando a *feature* `cluster`.
+| **Treino de Regressão** | Treina um **RandomForestRegressor** para prever a **`umidade`** semanal de Garanhuns.
+| **Treino de Classificação** | Treina um **DecisionTreeClassifier** para prever o **`cluster`** semanal de Garanhuns (validação da consistência dos grupos).
+| **Registro MLOps** | Métricas dos modelos supervisionados são logadas no **MLFlow** e os modelos (`.pkl`) e relatórios de classificação são enviados ao **MinIO** (Data Lake).
+
+**Variáveis e Métricas:** 
+
+| Variável | Agregação Semanal | Utilizado no K-Means (Treino) |
+| :--- | :--- | :--- |
+| `temp_ar` | Média | Sim |
+| `umidade` | Média | Sim |
+| `radiacao` | Média | Sim |
+| `pressao` | Média | Sim |
+| `vento_vel` | Média | Sim |
+| `precipitacao` | Soma (`sum`) | Sim |
+
+| Modelo | Variável Alvo | Métricas Chave |
+| :--- | :--- | :--- |
+| **RandomForestRegressor** | `umidade` | MAE, R² |
+| **DecisionTreeClassifier** | `cluster` | Acurácia, Classification Report|
 
 **Quando usar:** Após o processamento dos dados, para identificar padrões climáticos.
 
