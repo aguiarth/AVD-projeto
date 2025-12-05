@@ -357,7 +357,7 @@ Você deve ver todos os serviços com status `Up`:
    - Permite visualizar e explorar um arquivo específico
    - Usa a mesma função de processamento do notebook principal
 
-#### Passo 2: Thingsboard->MinIO->PostgreSQL->Jupyter->MLFlow/MinIO->Thingsboard
+#### Passo 2: Thingsboard->MinIO->PostgreSQL->Jupyter->MLFlow/MinIO
 
 1. **Acesse o ThingsBoard:** `http://localhost:8090`
    - Credenciais padrão: `tenant@thingsboard.org` / `tenant`
