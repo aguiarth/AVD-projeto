@@ -1390,7 +1390,7 @@
           "enableFullscreen": true,
           "titleStyle": null,
           "mobileHeight": null,
-          "configMode": "basic",
+          "configMode": "advanced",
           "actions": {},
           "showTitleIcon": false,
           "titleIcon": "public",
@@ -1410,7 +1410,7 @@
           "widgetStyle": {},
           "widgetCss": "",
           "pageSize": 1024,
-          "units": "%",
+          "units": "mm",
           "decimals": 0,
           "noDataDisplayMessage": "",
           "timewindowStyle": {
@@ -2023,7 +2023,7 @@
                     }
                   },
                   "_hash": 0.016023083099805158,
-                  "units": "mm",
+                  "units": "%",
                   "decimals": 0
                 }
               ],
