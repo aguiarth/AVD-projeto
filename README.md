@@ -367,7 +367,6 @@ Você deve ver todos os serviços com status `Up`:
    - Configure uma **Regra de Negócio** no ThingsBoard para persistir dados no MinIO
    - Use o script `scripts/send_inmet_to_tb.py` para enviar dados limpos ao ThingsBoard
    - Execute o script `scripts/etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
-   - Crie dashboards para visualizar os clusters identificados
 3. Modelagem e MLOps (K-Means) 🤖
     - Esta etapa usa os dados estruturados no PostgreSQL para aplicar a Machine Learning e registrar os artefatos.
     - Execute o notebook 02_modelagem.ipynb:
