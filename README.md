@@ -357,59 +357,6 @@ Você deve ver todos os serviços com status `Up`:
    - Permite visualizar e explorar um arquivo específico
    - Usa a mesma função de processamento do notebook principal
 
-### 02 - Fluxo de Modelagem Climática
-
-O notebook `02_modelagem.ipynb` é a etapa de **Modelagem e MLOps** que visa identificar padrões climáticos e construir modelos preditivos para Garanhuns (`INMET_Garanhuns`), utilizando Petrolina (`INMET_Petrolina`) como base de aprendizado.
-
-#### 1. Pré-processamento e Agregação
-
-| Etapa | Detalhe | Observações |
-| :--- | :--- | :--- |
-| **Carregamento** | Dados brutos (`inmet_raw`) são carregados diretamente do **PostgreSQL**. | - |
-| **Tratamento de Outliers** | Remoção de outliers por cidade utilizando a técnica do Intervalo Interquartil (IQR). | O tratamento é aplicado de forma isolada aos dados de cada estação (`device_name`). |
-| **Agregação Semanal** | Transformação dos dados horários em dados semanais (ISO year-week). | A base é separada em `df_pet_sem` (treino) e `df_gar_sem` (aplicação). |
-
-**Funções de Agregação Semanal (`agregar_semanal`):**
-| Variável | Agregação |
-| :--- | :--- |
-| `temp_ar` | **Média** (`mean`)|
-| `umidade` | **Média** (`mean`)|
-| `vento_vel` | **Média** (`mean`)|
-| `pressao` | **Média** (`mean`)|
-| `radiacao` | **Média** (`mean`)|
-| `precipitacao`| **Soma** (`sum`)|
-
-#### 2. Modelagem Não Supervisionada (Clusterização)
-
-* **K-Means (k=8)**: O modelo é treinado nos dados de **Petrolina** para identificar padrões climáticos semanais.
-* **Aplicação em Garanhuns**: O modelo K-Means treinado é aplicado aos dados de **Garanhuns** para prever o `cluster` (padrão climático) ao qual cada semana pertence.
-* **Variáveis no K-Means**: Todas as 6 variáveis agregadas são utilizadas: `temp_ar`, `umidade`, `vento_vel`, `precipitacao`, `pressao`, e `radiacao`.
-* **Observação**: O notebook não calcula métricas não supervisionadas (como *Silhouette Score*), mas analisa a distribuição dos clusters em Garanhuns e compara as médias dos clusters dominantes.
-
-#### 3. Modelagem Supervisionada (Treino Final em Garanhuns)
-
-O notebook treina dois modelos supervisionados na base de **Garanhuns**, utilizando o `cluster` (previsto pelo K-Means) como *feature* ou *label*:
-
-1.  **Regressão (RandomForestRegressor)**
-    * **Objetivo**: Prever a **Umidade** (`y = umidade`).
-    * **Features (X)**: `temp_ar`, `vento_vel`, `precipitacao`, `pressao`, `radiacao`, **e o `cluster`**.
-    * **Métricas**: `MAE` (Mean Absolute Error) e `R²` (R-squared).
-
-2.  **Classificação (DecisionTreeClassifier)**
-    * **Objetivo**: Prever o **Cluster** (`yc = cluster`).
-    * **Features (Xc)**: `temp_ar`, `umidade`, `vento_vel`, `precipitacao`, `pressao`, e `radiacao`.
-    * **Métricas**: `Acurácia` e `Classification Report`.
-
-#### 4. MLOps (MLFlow e MinIO)
-
-* **MLFlow Tracking**: Métricas e parâmetros de ambos os modelos supervisionados (Random Forest e Decision Tree) são registrados em um *run* pai (`Run_Modelos_Finais`) e dois *runs* aninhados. **O modelo K-Means não é explicitamente registrado**.
-* **MinIO Storage**: Os modelos (`.pkl`) e os relatórios de classificação (`.txt` e `.json`) são salvos em *paths* específicos no *bucket* `inmet-models` do **MinIO**.
-
-2. **Visualizar o modelo no MLFlow:**
-   - Acesse `http://localhost:5000`
-   - Navegue até o experimento "K-Means Clustering"
-   - Visualize métricas, parâmetros e artefatos
-
 #### Passo 3: Visualização no ThingsBoard
 
 1. **Acesse o ThingsBoard:** `http://localhost:8090`
@@ -421,21 +368,6 @@ O notebook treina dois modelos supervisionados na base de **Garanhuns**, utiliza
    - Use o script `scripts/send_inmet_to_tb.py` para enviar dados limpos ao ThingsBoard
    - Execute o script `scripts/etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
    - Crie dashboards para visualizar os clusters identificados
-
-### 8.5. Executar Scripts Auxiliares
-
-Comandos para Linux / macOS / Windows PowerShell (usar barra invertida no CMD):
-
-```bash
-# Enviar dados limpos para ThingsBoard
-python scripts/send_inmet_to_tb.py
-
-# ETL MinIO → PostgreSQL (após ThingsBoard persistir no MinIO)
-python scripts/etl_minio_to_postgres.py
-
-# Testar pipeline
-python scripts/test_pipeline.py
-```
 
 ## 9. Notebooks do Projeto
 
@@ -512,7 +444,7 @@ O principal objetivo é utilizar um modelo de **Clusterização** (K-Means) trei
 
 **Quando usar:** Após o processamento dos dados, para identificar padrões climáticos.
 
-## 10. Scripts Auxiliares
+## 10. Scripts
 
 ### 🔧 `scripts/send_inmet_to_tb.py`
 
