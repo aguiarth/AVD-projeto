@@ -514,33 +514,6 @@ O principal objetivo é utilizar um modelo de **Clusterização** (K-Means) trei
 
 ## 10. Scripts Auxiliares
 
-### 🔧 `scripts/etl_minio_to_postgres.py`
-
-Script de ETL para transferir dados do Data Lake (MinIO) para o Data Warehouse (PostgreSQL). Este script deve ser executado após o ThingsBoard persistir os dados no MinIO através de sua Regra de Negócio.
-
-**Uso:**
-
-```bash
-# Linux / macOS
-python scripts/etl_minio_to_postgres.py
-
-# Windows
-python scripts\etl_minio_to_postgres.py
-```
-
-**Funcionalidades:**
-- Conecta ao MinIO e lista arquivos CSV
-- Carrega dados do MinIO (dados brutos persistidos pelo ThingsBoard)
-- Cria tabela `inmet_raw` no PostgreSQL (se não existir)
-- Insere dados na tabela `inmet_raw` do PostgreSQL
-- Organiza dados por dispositivo (Petrolina/Garanhuns)
-
-**Fluxo:**
-1. Execute `send_inmet_to_tb.py` para enviar dados ao ThingsBoard
-2. O ThingsBoard persiste dados brutos no MinIO via Regra de Negócio
-3. Execute este script para transferir dados do MinIO para PostgreSQL
-4. O Jupyter Notebook extrai dados do PostgreSQL para modelagem
-
 ### 🔧 `scripts/send_inmet_to_tb.py`
 
 Script para enviar dados limpos processados para o ThingsBoard. Este é o primeiro passo do pipeline de dados.
@@ -568,6 +541,33 @@ python scripts\send_inmet_to_tb.py
 1. Este script envia dados limpos para o ThingsBoard
 2. O ThingsBoard aplica uma Regra de Negócio para persistir dados brutos no MinIO
 3. Execute `etl_minio_to_postgres.py` para transferir dados do MinIO para PostgreSQL
+
+### 🔧 `scripts/etl_minio_to_postgres.py`
+
+Script de ETL para transferir dados do Data Lake (MinIO) para o Data Warehouse (PostgreSQL). Este script deve ser executado após o ThingsBoard persistir os dados no MinIO através de sua Regra de Negócio.
+
+**Uso:**
+
+```bash
+# Linux / macOS
+python scripts/etl_minio_to_postgres.py
+
+# Windows
+python scripts\etl_minio_to_postgres.py
+```
+
+**Funcionalidades:**
+- Conecta ao MinIO e lista arquivos CSV
+- Carrega dados do MinIO (dados brutos persistidos pelo ThingsBoard)
+- Cria tabela `inmet_raw` no PostgreSQL (se não existir)
+- Insere dados na tabela `inmet_raw` do PostgreSQL
+- Organiza dados por dispositivo (Petrolina/Garanhuns)
+
+**Fluxo:**
+1. Execute `send_inmet_to_tb.py` para enviar dados ao ThingsBoard
+2. O ThingsBoard persiste dados brutos no MinIO via Regra de Negócio
+3. Execute este script para transferir dados do MinIO para PostgreSQL
+4. O Jupyter Notebook extrai dados do PostgreSQL para modelagem
 
 ### 🔧 `scripts/test_pipeline.py`
 
